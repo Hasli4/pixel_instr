@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Гайд по CSS для Better Books</title>
+    <link rel="stylesheet" href="better_books_guide.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__inner">
+        <div class="hero__copy">
+          <p class="eyebrow">Пошаговый гайд</p>
+          <h1>Доработай CSS для Better Books</h1>
+          <p>
+            HTML уже готов. В этой инструкции ты шаг за шагом приводишь свой
+            CSS к итоговому виду: меню, первый экран, текст, кнопка и нижняя
+            секция.
+          </p>
+        </div>
+
+        <div class="progress-card" aria-live="polite">
+          <span class="progress-card__label">Прогресс</span>
+          <strong id="progressText">0 из 5 шагов</strong>
+          <div class="progress-bar" aria-hidden="true">
+            <span id="progressBar"></span>
+          </div>
+          <p class="progress-card__note">
+            Прогресс хранится только в этом браузере.
+          </p>
+          <button
+            id="resetProgress"
+            class="button button--ghost progress-card__button"
+            type="button"
+          >
+            Сбросить прогресс
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      <aside class="route" aria-label="Шаги">
+        <h2>Шаги</h2>
+        <nav id="stepNav"></nav>
+      </aside>
+
+      <section class="lesson" aria-label="Инструкция">
+        <section class="intro">
+          <div>
+            <p class="eyebrow">Важно</p>
+            <h2>Правь только CSS</h2>
+          </div>
+          <p>
+            HTML здесь не трогай. В каждом шаге сначала посмотри, что нужно
+            изменить, потом попробуй сделать правку сам, а подсказки открывай
+            только если застрял.
+          </p>
+        </section>
+
+        <div id="steps" class="steps"></div>
+
+        <section class="finish" aria-labelledby="finish-title">
+          <p class="eyebrow">Финальная проверка</p>
+          <h2 id="finish-title">Проверь готовый CSS</h2>
+          <p>
+            После последнего шага страница должна выглядеть как готовый макет:
+            меню стоит в одну строку, первый экран разделен на левую и правую
+            части, кнопка реагирует на наведение и нажатие, а секция
+            направлений оформлена в одну широкую строку.
+          </p>
+
+          <div class="checklist">
+            <label>
+              <input type="checkbox" />
+              <span>У <code>nav</code> есть <code>display: flex</code> и <code>gap: 32px</code>.</span>
+            </label>
+            <label>
+              <input type="checkbox" />
+              <span><code>.cover</code> растянута по ширине и имеет высоту <code>80vh</code>.</span>
+            </label>
+            <label>
+              <input type="checkbox" />
+              <span>Заголовок первого экрана оформлен через <code>PT Serif</code>, а соцсети стоят в ряд.</span>
+            </label>
+            <label>
+              <input type="checkbox" />
+              <span>У <code>.btn-main</code> есть обычное состояние, <code>:hover</code> и <code>:active</code>.</span>
+            </label>
+            <label>
+              <input type="checkbox" />
+              <span>У секции <code>.areas</code> настроены заголовок, строка карточек и картинки внутри.</span>
+            </label>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="better_books_guide.js"></script>
+  </body>
+</html>

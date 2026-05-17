@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=PT+Sans+Caption:wght@400;700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+body {
+    padding: 16px 0;
+    margin: 0;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+    font-family: "PT Sans Caption", sans-serif;
+    box-sizing: border-box;
+    padding: 0 64px;
+}
+
+.logo {
+    height: 60%;
+}
+
+.logo img {
+    height: 100%;
+}
+
+nav {
+    height: 100%;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+
+.cover {
+    width: 100%;
+    height: 80vh;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 64px;
+}
+
+.cover .right img {
+    height: 100%;
+}
+
+.cover .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cover .left .text-group {
+    width: 80%;
+}
+
+.cover .left .text-group h1 {
+    font-family: "PT Serif", serif;
+    font-size: 6em;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1em;
+}
+
+.cover .left p {
+    font-family: "PT Sans Caption", sans-serif;
+    font-weight: 400;
+    font-size: 1.5em;
+}
+
+.left .social-icons {
+    display: flex;
+    gap: 16px;
+    height: 40px;
+}
+
+.left .social-icons .social-icon img {
+    height: 100%;
+}
+
+.left .btn-main {
+    background: black;
+    border: 3px solid black;
+    color: white;
+    width: fit-content;
+    padding: 16px 32px;
+    box-sizing: border-box;
+    font-family: "PT Sans Caption", sans-serif;
+    cursor: pointer;
+    transition-property: background, color, transform;
+    transition-duration: .3s;
+    transition-timing-function: ease-out;
+    user-select: none;
+}
+
+.btn-main:hover {
+    background: white;
+    color: black;
+    transition-property: background, color, transform;
+    transition-duration: .15s;
+    transition-timing-function: ease-in;
+}
+
+.btn-main:active {
+    transform: scale(.97);
+    transition: transform .15s ease-in;
+}
+
+.areas h1 {
+    font-size: 3.6em;
+    font-weight: 400;
+    font-family: "PT Serif", serif;
+    padding: 0 64px;
+}
+
+.areas .row {
+    background: rgba(233, 173, 200, 0.62);
+    display: flex;
+    gap: 48px;
+    padding: 64px 64px;
+    box-sizing: border-box;
+}
+
+.areas .row .row-item img {
+    width: 100%;
+}
