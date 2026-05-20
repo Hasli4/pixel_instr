@@ -3,33 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Пошаговое обновление Pixel Draw</title>
+    <title>Гайд по доработке Pixel Draw</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header class="hero">
       <div class="hero__inner">
-        <img class="hero__logo" src="images/Logo.png" alt="Pixel Draw" />
-
         <div class="hero__copy">
-          <p class="eyebrow">Учебный маршрут</p>
-          <h1>Привести draw.* к итоговому виду</h1>
+          <p class="eyebrow">Пошаговый гайд</p>
+          <h1>Доработай `update.*`: сохранение и экспорт рисунка</h1>
           <p>
-            Разбираем, как доработать свои файлы пиксельного редактора:
-            сначала HTML, затем верстка, сетка и логика рисования.
+            В этой инструкции ты не переносишь дизайн из `pixel_M4L3` один в
+            один. Ты берешь оттуда только две идеи: сохранение рисунка между
+            перезапусками и экспорт поля в картинку. Работать нужно на базе
+            своих файлов `update.html`, `update.css`, `update.js`.
           </p>
         </div>
 
         <div class="progress-card" aria-live="polite">
           <span class="progress-card__label">Прогресс</span>
-          <strong id="progressText">0 из 8 шагов</strong>
+          <strong id="progressText">0 из 5 шагов</strong>
           <div class="progress-bar" aria-hidden="true">
             <span id="progressBar"></span>
           </div>
           <p class="progress-card__note">
             Прогресс хранится только в этом браузере.
           </p>
-          <button id="resetProgress" class="button button--ghost progress-card__button" type="button">
+          <button
+            id="resetProgress"
+            class="button button--ghost progress-card__button"
+            type="button"
+          >
             Сбросить прогресс
           </button>
         </div>
@@ -38,41 +42,73 @@
 
     <main class="page">
       <aside class="route" aria-label="Навигация по шагам">
-        <h2>Порядок работы</h2>
+        <h2>Шаги</h2>
         <nav id="stepNav"></nav>
       </aside>
 
-      <section class="lesson" aria-label="Пошаговая инструкция">
-        <div class="intro">
+      <section class="lesson" aria-label="Инструкция по доработке">
+        <section class="intro">
           <div>
-            <p class="eyebrow">Как пользоваться</p>
-            <h2>Иди по шагам сверху вниз</h2>
+            <p class="eyebrow">Как идти</p>
+            <h2>Сначала логика, потом проверка</h2>
           </div>
           <p>
-            В каждом шаге сначала прочитай, что было в исходном коде, что нужно
-            поменять и зачем. Подсказки открываются только после ответа на
-            вопрос: чем сильнее подсказка, тем точнее вопрос.
+            Здесь основной упор на JavaScript. Мы добавим минимум новых правок в
+            `update.html` и `update.css`, только чтобы запустить новые функции:
+            кнопку сохранения и библиотеку `dom-to-image`. Всё остальное делается
+            в `update.js`.
           </p>
-        </div>
+        </section>
 
         <div id="steps" class="steps"></div>
 
         <section class="finish" aria-labelledby="finish-title">
-          <p class="eyebrow">Финишная проверка</p>
-          <h2 id="finish-title">Проверь готовый редактор</h2>
+          <p class="eyebrow">Финальная проверка</p>
+          <h2 id="finish-title">Проверь готовую доработку</h2>
           <p>
-            После восьмого шага твои файлы <code>draw.html</code>,
-            <code>draw.css</code> и <code>draw.js</code> должны работать как
-            законченный редактор: HTML дает рабочую область, CSS удерживает
-            сетку в границах экрана, а JS рисует через pointer-события,
-            очищает клетки и запускает одну общую анимацию заливки.
+            После последнего шага твой редактор из `update.*` должен уметь:
+            сохранить состояние поля в cookie, восстановить рисунок после
+            перезагрузки страницы и скачать содержимое `.field` как готовую
+            картинку. При этом внешний вид редактора должен остаться почти
+            прежним: мы не переделываем интерфейс под `pixel_M4L3`, а только
+            добавляем нужную функциональность.
           </p>
 
           <div class="checklist">
-            <label><input type="checkbox" /><span>В HTML есть <code>main.workspace</code> с <code>.field</code> внутри.</span></label>
-            <label><input type="checkbox" /><span>Сетка состоит из 50 колонок и 20 строк.</span></label>
-            <label><input type="checkbox" /><span>Клетки рисуются по <code>pointerdown</code> и <code>pointerenter</code>.</span></label>
-            <label><input type="checkbox" /><span><code>Clear</code> и <code>Fill All</code> меняют фон и границы клеток без лишних циклов.</span></label>
+            <label>
+              <input type="checkbox" />
+              <span>
+                В `update.html` подключена библиотека <code>dom-to-image</code>
+                и добавлена кнопка сохранения.
+              </span>
+            </label>
+            <label>
+              <input type="checkbox" />
+              <span>
+                У каждой клетки есть понятный код цвета, а не только inline-стиль.
+              </span>
+            </label>
+            <label>
+              <input type="checkbox" />
+              <span>
+                При запуске редактор читает cookie и восстанавливает рисунок в
+                уже созданные клетки.
+              </span>
+            </label>
+            <label>
+              <input type="checkbox" />
+              <span>
+                После рисования, очистки и заливки состояние сетки снова
+                записывается в cookie.
+              </span>
+            </label>
+            <label>
+              <input type="checkbox" />
+              <span>
+                Кнопка сохранения скачивает именно поле <code>.field</code> как
+                изображение.
+              </span>
+            </label>
           </div>
         </section>
       </section>

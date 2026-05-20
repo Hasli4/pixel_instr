@@ -1,675 +1,317 @@
-/*
-  Шаблон для будущих учебных сайтов по схеме "старая версия -> новая версия":
-  1. Сначала собери полный diff HTML/CSS/JS и разложи его на понятные шаги.
-  2. Шаги держи в одном порядке: структура HTML -> каркас страницы -> область
-     работы -> сетка -> адаптивность -> JS-рисование -> очистка/заливка ->
-     финальные доводки до готового вида.
-  3. В каждом шаге оставляй один и тот же формат: before/change/why/task,
-     три простых вопроса, краткий recap и блок result с "что было / что
-     должно получиться".
-  4. Вопросы делай легкими и проверяющими понимание, а точный код показывай
-     только в третьей подсказке и в итоговом блоке после 3/3 верных ответов.
-  5. После отметки шага как выполненного проси пройти вопросы для проверки.
-*/
-
 const steps = [
   {
-    title: "Разбери HTML на понятные части",
-    goal: "Сначала наведи порядок в `draw.html`: инструменты отдельно, поле отдельно.",
+    title: "Подготовь HTML и кнопку сохранения",
+    goal:
+      "Сначала добавь в `update.html` всё, что нужно для новой функции сохранения картинки, но не переделывай интерфейс целиком.",
     before:
-      "Сейчас `.field` стоит просто после шапки, а `Fill All` лежит рядом с цветами.",
+      "Сейчас в `update.html` уже есть редактор, палитра и кнопки `Fill All` и `Clear`, но нет отдельной кнопки для скачивания рисунка и не подключена библиотека из примера `pixel_M4L3`.",
     change:
-      "Оставь цвета в `.colors`, перенеси `Fill All` к `Clear` в `.addons`, а `.field` оберни в `main.workspace`.",
+      "Добавь в `.addons` еще одну кнопку, например `Save Image`, и подключи `dom-to-image` отдельным `<script>` перед `update.js`. В `update.css` расширь существующий селектор кнопок, чтобы новая кнопка выглядела так же, как остальные служебные кнопки.",
     why:
-      "Так сверху будет панель, в центре поле, и CSS станет проще настраивать.",
+      "JS не сможет сохранить картинку без подключенной библиотеки, а пользователь не сможет вызвать функцию без кнопки. При этом дизайн редактора останется тем же: ты просто добавишь одну кнопку в уже существующий блок.",
     task:
-      "Правь только `draw.html`. Классы кнопок не меняй: `draw.js` ищет их по этим именам.",
+      "Правь `update.html` и одну строку в `update.css`. Не копируй иконки и вертикальную палитру из `pixel_M4L3`: нам нужна только функциональность.",
     recap:
-      "Ты разделил цвета и действия, а поле вынес в отдельную рабочую область. После этого HTML стало легче читать, а центр страницы проще оформлять в CSS.",
+      "На этом шаге ты подготовил интерфейс к новым возможностям: подключил библиотеку и дал пользователю точку входа через новую кнопку, не ломая существующий дизайн проекта.",
     result: {
-      location: "Где править: `draw.html`, внутри `header` и сразу после него.",
-      before: `<div class="colors">
-  ...
-  <button class="erase"></button>
-  <button class="paint-all">Fill All</button>
-</div>
-</header>
-<div class="field"></div>`,
-      after: `<div class="colors">
-  ...
-  <button class="erase" type="button"></button>
-</div>
-
-<div class="addons">
+      location:
+        "Где править: `update.html` внутри блока `.addons`, внизу `body` перед `update.js` и селектор кнопок в `update.css`.",
+      before: `<div class="addons">
   <button class="paint-all" type="button">Fill All</button>
   <button class="clear" type="button">Clear</button>
 </div>
-</header>
 
-<main class="workspace">
-  <div class="field"></div>
-</main>`,
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="update.js"></script>
+
+.paint-all,
+.clear {
+  border-radius: 5px;
+  height: 30px;
+  ...
+}`,
+      after: `<div class="addons">
+  <button class="paint-all" type="button">Fill All</button>
+  <button class="clear" type="button">Clear</button>
+  <button class="save-image" type="button">Save Image</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+<script src="update.js"></script>
+
+.paint-all,
+.clear,
+.save-image {
+  border-radius: 5px;
+  height: 30px;
+  ...
+}`,
       note:
-        "Поле теперь живет в отдельной рабочей зоне, а кнопки действий собраны в одном месте.",
+        "В `pixel_M4L3` библиотека подключена через CDN. Эту идею мы переносим, а внешний вид редактора оставляем своим.",
     },
     hints: [
       {
         level: "Маленькая подсказка",
         difficulty: "Простой вопрос",
-        question: "Какой блок является полем для рисования?",
-        answer: "field",
-        options: [
-          {
-            value: "colors",
-            label: "`.colors`",
-            explain: "Это блок с палитрой цветов, а не поле рисования.",
-          },
-          {
-            value: "field",
-            label: "`.field`",
-            explain: "Верно: именно в `.field` потом появляются клетки для рисования.",
-          },
-          {
-            value: "footer",
-            label: "`.footer`",
-            explain: "Это нижняя часть страницы, к холсту она не относится.",
-          },
-        ],
-        body:
-          "<p>Найди в HTML строку <code>&lt;div class=\"field\"&gt;&lt;/div&gt;</code>. Этот блок и будет основой для холста.</p>",
-      },
-      {
-        level: "Средняя подсказка",
-        difficulty: "Вопрос чуть точнее",
-        question: "Куда лучше перенести кнопку `Fill All`?",
+        question: "Куда логичнее всего добавить кнопку сохранения в текущем `update.html`?",
         answer: "addons",
         options: [
           {
             value: "colors",
             label: "В `.colors`",
-            explain: "Не совсем: в `.colors` лучше оставить только цвета и ластик.",
+            explain:
+              "Нет: `.colors` у тебя отвечает за выбор цвета, а не за служебные действия.",
           },
           {
             value: "addons",
             label: "В `.addons`",
-            explain: "Верно: `Fill All` и `Clear` — это действия, поэтому их удобно держать вместе.",
-          },
-          {
-            value: "logo",
-            label: "К логотипу",
-            explain: "Нет, логотип не связан с кнопками редактора.",
-          },
-        ],
-        body:
-          "<p>`Fill All` не выбирает цвет, а выполняет действие. Поэтому ей лучше стоять рядом с <code>Clear</code>.</p>",
-      },
-      {
-        level: "Почти готовое решение",
-        difficulty: "Точный вопрос",
-        question: "Какой тег оборачивает главную рабочую часть страницы?",
-        answer: "main",
-        options: [
-          {
-            value: "main",
-            label: "`main`",
-            explain: "Верно: `main` подходит для центральной части страницы, где находится холст.",
-          },
-          {
-            value: "img",
-            label: "`img`",
-            explain: "Нет, `img` нужен для картинки, а не для рабочей области.",
-          },
-          {
-            value: "button",
-            label: "`button`",
-            explain: "Нет, `button` подходит только для кнопок.",
-          },
-        ],
-        body:
-          '<p>Сделай центральную часть страницы такой:</p><pre><code>&lt;div class="addons"&gt;\n  &lt;button class="paint-all" type="button"&gt;Fill All&lt;/button&gt;\n  &lt;button class="clear" type="button"&gt;Clear&lt;/button&gt;\n&lt;/div&gt;\n\n&lt;main class="workspace"&gt;\n  &lt;div class="field"&gt;&lt;/div&gt;\n&lt;/main&gt;</code></pre><p>Теперь у поля есть отдельная рабочая зона, а у действий — свой блок.</p>',
-      },
-    ],
-  },
-  {
-    title: "Поставь блоки на свои места",
-    goal: "Настрой `draw.css`, чтобы шапка была сверху, поле в центре, подвал снизу.",
-    before:
-      "Страница уже похожа на flex-колонку, но высота и центральная область настроены не до конца.",
-    change:
-      "Задай странице высоту окна, оставь `body` колонкой, а `.workspace` растяни между шапкой и подвалом.",
-    why:
-      "Редактор займет экран аккуратно и не будет разваливаться по высоте.",
-    task:
-      "Начни с `body`, `.header`, `.footer` и `.workspace` в `draw.css`.",
-    recap:
-      "Ты собрал каркас страницы: шапка сверху, рабочая область в центре, подвал снизу. Теперь поле можно ограничивать и настраивать отдельно.",
-    result: {
-      location: "Где править: `draw.css`, общие стили страницы и блок `.workspace`.",
-      before: `body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-}
-
-.footer {
-  position: sticky;
-}`,
-      after: `* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  overflow: hidden;
-}
-
-.header,
-.footer {
-  flex-shrink: 0;
-}
-
-.workspace {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: auto;
-  padding: 12px;
-}`,
-      note:
-        "Главная идея здесь — дать полю свое место между шапкой и подвалом, а не растягивать всё вручную.",
-    },
-    hints: [
-      {
-        level: "Маленькая подсказка",
-        difficulty: "Простой вопрос",
-        question: "Как должны стоять шапка, поле и подвал?",
-        answer: "column",
-        options: [
-          {
-            value: "row",
-            label: "В одну строку",
-            explain: "Нет: редактор должен идти сверху вниз, а не слева направо.",
-          },
-          {
-            value: "column",
-            label: "Один под другим",
-            explain: "Верно: для этого у `body` нужна flex-колонка.",
-          },
-          {
-            value: "center",
-            label: "Просто по центру",
-            explain: "Недостаточно: нам нужен именно порядок сверху вниз.",
-          },
-        ],
-        body:
-          "<p>У `body` должно быть <code>display: flex;</code> и <code>flex-direction: column;</code>.</p>",
-      },
-      {
-        level: "Средняя подсказка",
-        difficulty: "Вопрос чуть точнее",
-        question: "Какой блок должен занять место между шапкой и подвалом?",
-        answer: "workspace",
-        options: [
-          {
-            value: "header",
-            label: "`.header`",
-            explain: "Нет: шапка остается отдельным верхним блоком.",
-          },
-          {
-            value: "workspace",
-            label: "`.workspace`",
-            explain: "Верно: именно рабочая область должна растягиваться по свободной высоте.",
+            explain:
+              "Верно: сохранение картинки — это такое же действие, как `Fill All` и `Clear`.",
           },
           {
             value: "footer",
-            label: "`.footer`",
-            explain: "Нет: подвал остается снизу и не должен забирать центральное место.",
+            label: "В `.footer`",
+            explain:
+              "Нет: подвал не связан с инструментами редактора и только засорит интерфейс.",
           },
         ],
         body:
-          "<p>Добавь для <code>.workspace</code> свойство <code>flex: 1;</code>. Оно отдаст ей всё свободное место.</p>",
-      },
-      {
-        level: "Почти готовое решение",
-        difficulty: "Точный вопрос",
-        question: "Где нужна прокрутка, если поле не помещается?",
-        answer: "workspace",
-        options: [
-          {
-            value: "workspace",
-            label: "У `.workspace`",
-            explain: "Верно: прокрутка должна включаться у рабочей области, а не у всего холста.",
-          },
-          {
-            value: "header",
-            label: "У `.header`",
-            explain: "Нет: шапка не должна прокручиваться вместе с полем.",
-          },
-          {
-            value: "logo",
-            label: "У логотипа",
-            explain: "Нет, логотип не управляет расположением поля.",
-          },
-        ],
-        body:
-          '<p>Добавь в `.workspace` такие строки:</p><pre><code>.workspace {\n  flex: 1;\n  min-height: 0;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  overflow: auto;\n  padding: 12px;\n}</code></pre><p>Теперь рабочая область держит поле и включает прокрутку только при необходимости.</p>',
-      },
-    ],
-  },
-  {
-    title: "Ограничь поле рисования",
-    goal: "Поле не должно растягивать всю страницу и вылезать за экран.",
-    before:
-      "Сейчас `.field` занимает всю ширину и не ощущается как отдельный холст.",
-    change:
-      "Задай `.field` понятную ширину, высоту, минимальный размер и скрой лишнее внутри.",
-    why:
-      "Так поле станет отдельной рабочей зоной и не будет ломать верстку.",
-    task:
-      "Правь блок `.field` в `draw.css`. Клетки настроишь следующим шагом.",
-    recap:
-      "Ты ограничил сам холст по ширине и высоте. После этого поле перестало растягивать всю страницу и стало выглядеть как отдельная область для рисования.",
-    result: {
-      location: "Где править: `draw.css`, блок `.field`.",
-      before: `.field {
-  width: 100%;
-  display: grid;
-  gap: 2.5px;
-  background-color: black;
-}`,
-      after: `.field {
-  width: min(100%, 1000px);
-  height: min(100%, calc(100vh - 230px));
-  min-width: 620px;
-  min-height: 320px;
-  overflow: hidden;
-  background-color: black;
-  border: 1px solid black;
-  touch-action: none;
-}`,
-      note:
-        "Теперь поле не растягивается бесконечно, а живет в понятных границах.",
-    },
-    hints: [
-      {
-        level: "Маленькая подсказка",
-        difficulty: "Простой вопрос",
-        question: "Какой блок в CSS отвечает за сам холст?",
-        answer: "field",
-        options: [
-          {
-            value: "field",
-            label: "`.field`",
-            explain: "Верно: именно `.field` является контейнером для сетки.",
-          },
-          {
-            value: "clear",
-            label: "`.clear`",
-            explain: "Нет: это кнопка очистки, а не холст.",
-          },
-          {
-            value: "logo",
-            label: "`.logo`",
-            explain: "Нет: это только картинка в шапке.",
-          },
-        ],
-        body:
-          "<p>Ищи в CSS блок <code>.field</code>. Ограничивать нужно именно его.</p>",
+          "<p>Ориентируйся на существующую логику интерфейса: цвета живут в <code>.colors</code>, а действия — в <code>.addons</code>. Кнопку сохранения нужно добавить именно к действиям.</p>",
       },
       {
         level: "Средняя подсказка",
         difficulty: "Вопрос чуть точнее",
-        question: "Какая максимальная ширина поля выглядит нормально?",
-        answer: "1000",
+        question: "Какую библиотеку реально использует пример из `pixel_M4L3` для экспорта картинки?",
+        answer: "domtoimage",
         options: [
           {
-            value: "100",
-            label: "100px",
-            explain: "Слишком мало: поле станет почти бесполезным.",
+            value: "anime",
+            label: "`anime.js`",
+            explain:
+              "Нет: `anime.js` отвечает за анимации, но не умеет превращать DOM-узел в картинку.",
           },
           {
-            value: "1000",
-            label: "1000px",
-            explain: "Верно: это широкое, но все еще ограниченное поле.",
+            value: "domtoimage",
+            label: "`dom-to-image`",
+            explain:
+              "Верно: именно `dom-to-image` подключена в `pixel_M4L3/index.html` и потом вызывается из JS.",
           },
           {
-            value: "5000",
-            label: "5000px",
-            explain: "Слишком много: поле снова начнет ломать верстку.",
+            value: "cookie",
+            label: "Библиотека cookie",
+            explain:
+              "Нет: cookie в примере читаются и записываются обычным `document.cookie`, без отдельной библиотеки.",
           },
         ],
         body:
-          "<p>Удобный вариант: <code>width: min(100%, 1000px);</code>. Так поле не выйдет за пределы контейнера.</p>",
+          "<p>В примере есть отдельный CDN-скрипт <code>dom-to-image</code>. Его и нужно подключить в <code>update.html</code> перед своим <code>update.js</code>, чтобы глобальный объект библиотеки уже существовал к моменту запуска твоего кода.</p>",
       },
       {
         level: "Почти готовое решение",
         difficulty: "Точный вопрос",
-        question: "Что лучше сделать с лишним внутри поля?",
-        answer: "hidden",
+        question: "Что нужно сделать в CSS, чтобы новая кнопка не выбивалась из текущего дизайна?",
+        answer: "selector",
         options: [
           {
-            value: "hidden",
-            label: "Скрыть",
-            explain: "Верно: у `.field` лучше поставить `overflow: hidden`, чтобы лишнее не торчало наружу.",
+            value: "new-block",
+            label: "Писать отдельный сложный блок с нуля",
+            explain:
+              "Не обязательно: дизайн у тебя уже есть, и здесь лучше переиспользовать существующие стили.",
           },
           {
-            value: "scroll",
-            label: "Прокручивать внутри поля",
-            explain: "Не лучший вариант: прокрутка удобнее у внешней рабочей области.",
+            value: "selector",
+            label: "Добавить новый класс в общий селектор кнопок",
+            explain:
+              "Верно: проще и чище расширить уже существующий селектор служебных кнопок.",
           },
           {
             value: "ignore",
-            label: "Ничего не делать",
-            explain: "Так поле может вылезать за свои границы.",
+            label: "Оставить без стилей",
+            explain:
+              "Нет: тогда новая кнопка будет выглядеть как чужой элемент внутри готовой панели.",
           },
         ],
         body:
-          '<p>Настрой `.field` так:</p><pre><code>.field {\n  width: min(100%, 1000px);\n  height: min(100%, calc(100vh - 230px));\n  min-width: 620px;\n  min-height: 320px;\n  overflow: hidden;\n  background-color: black;\n  border: 1px solid black;\n  touch-action: none;\n}</code></pre><p>Прокрутку при необходимости даст родитель <code>.workspace</code>.</p>',
+          '<p>Сделай минимальные правки так:</p><pre><code>&lt;div class="addons"&gt;\n  &lt;button class="paint-all" type="button"&gt;Fill All&lt;/button&gt;\n  &lt;button class="clear" type="button"&gt;Clear&lt;/button&gt;\n  &lt;button class="save-image" type="button"&gt;Save Image&lt;/button&gt;\n&lt;/div&gt;\n\n&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"&gt;&lt;/script&gt;</code></pre><pre><code>.paint-all,\n.clear,\n.save-image {\n  border-radius: 5px;\n  height: 30px;\n  border: 2px solid black;\n  background-color: lightgray;\n  user-select: none;\n  cursor: pointer;\n  padding: 0 14px;\n  font-family: inherit;\n}</code></pre><p>Этого достаточно, чтобы не менять дизайн редактора, но подготовить интерфейс к новой функции.</p>',
       },
     ],
   },
   {
-    title: "Сделай ровную сетку",
-    goal: "1000 клеток должны лечь в сетку 50 на 20.",
+    title: "Подготовь удобный формат для сохранения состояния",
+    goal:
+      "Прежде чем читать и писать cookie, нужно договориться, как именно сетка будет храниться в памяти и в строке cookie.",
     before:
-      "В CSS указано 50 колонок и 15 строк, хотя JS создает 1000 клеток.",
+      "Сейчас `update.js` просто красит клетки через `backgroundColor` и `borderColor`. Это удобно для рисования, но неудобно для хранения: cookie лучше записывать не длинными CSS-строками, а короткими кодами цветов.",
     change:
-      "Поставь 50 колонок, 20 строк и сделай клетку размером на всю свою ячейку.",
+      "Добавь в `update.js` кнопку `saveImageButton`, имя cookie, таблицу соответствия `цвет -> код`, обратную таблицу `код -> внешний вид` и функцию `applyCellColor(cell, code)`. После этого все изменения клетки делай через эту функцию, а не через ручную установку стилей в разных местах.",
     why:
-      "Когда сетка совпадает с количеством клеток, поле выглядит ровно и аккуратно.",
+      "Когда у клетки есть короткий код, вся сетка превращается в простую строку из символов. Это упрощает и сохранение в cookie, и восстановление рисунка после загрузки, и общий порядок в коде.",
     task:
-      "Проверь `.field` и `.cell` в `draw.css`. Здесь главная идея простая: 50 * 20 = 1000.",
+      "Работай в `update.js`. На этом шаге не сохраняй cookie и не экспортируй картинку — сначала приведи внутреннее состояние редактора к предсказуемому виду.",
     recap:
-      "Ты согласовал сетку с количеством клеток и убрал фиксированный размер у `.cell`. Теперь клетки растягиваются по сетке и не ломают поле.",
+      "Ты перевел редактор на единый способ работы с клетками: теперь у каждой клетки есть код цвета, а внешний вид задается одной функцией. Это делает следующий шаг с cookie намного проще.",
     result: {
-      location: "Где править: `draw.css`, блоки `.field` и `.cell`.",
-      before: `.field {
-  grid-template-columns: repeat(50, 1fr);
-  grid-template-rows: repeat(15, 1fr);
+      location:
+        "Где править: верх `update.js`, рядом с выбором DOM-элементов и перед созданием клеток.",
+      before: `let paintAll = document.querySelector(".paint-all");
+let clear = document.querySelector(".clear");
+let field = document.querySelector(".field");
+
+let color = "black";
+let cells = [];
+
+cell.style.backgroundColor = color;
+cell.style.borderColor = color === "white" ? "#d9d9d9" : "#111";`,
+      after: `let paintAll = document.querySelector(".paint-all");
+let clear = document.querySelector(".clear");
+let saveImageButton = document.querySelector(".save-image");
+let field = document.querySelector(".field");
+
+const COOKIE_NAME = "pixel-draw-state";
+
+const COLOR_TO_CODE = {
+  white: "0",
+  black: "1",
+  red: "2",
+  green: "3",
+  blue: "4",
+  yellow: "5",
+  purple: "6",
+  brown: "7",
+  pink: "8",
+};
+
+const CODE_TO_COLOR = {
+  "0": { background: "#ffffff", border: "#d9d9d9" },
+  "1": { background: "#000000", border: "#111" },
+  "2": { background: "#ff0000", border: "#111" },
+  "3": { background: "#008000", border: "#111" },
+  "4": { background: "#0000ff", border: "#111" },
+  "5": { background: "#ffea00", border: "#111" },
+  "6": { background: "#800080", border: "#111" },
+  "7": { background: "#a52a2a", border: "#111" },
+  "8": { background: "#ffc0cb", border: "#111" },
+};
+
+function getCodeByColorName(colorName) {
+  return COLOR_TO_CODE[colorName] ?? "0";
 }
 
-.cell {
-  width: 25px;
-  height: 25px;
-}`,
-      after: `.field {
-  display: grid;
-  grid-template-columns: repeat(50, minmax(0, 1fr));
-  grid-template-rows: repeat(20, minmax(0, 1fr));
-  gap: 1px;
-}
-
-.cell {
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  border: 1px solid #d9d9d9;
-  user-select: none;
-  touch-action: none;
+function applyCellColor(cell, colorCode) {
+  const state = CODE_TO_COLOR[colorCode] ?? CODE_TO_COLOR["0"];
+  cell.dataset.colorCode = colorCode;
+  cell.style.backgroundColor = state.background;
+  cell.style.borderColor = state.border;
 }`,
       note:
-        "Ключевой момент: 50 колонок и 20 строк дают ровно 1000 мест для клеток.",
+        "Ключевая мысль этого шага: рисование и сохранение должны опираться на один и тот же источник правды, а не на случайный набор inline-стилей.",
     },
     hints: [
       {
         level: "Маленькая подсказка",
         difficulty: "Простой вопрос",
-        question: "Сколько строк нужно, если клеток 1000, а колонок 50?",
-        answer: "20",
+        question: "Что удобнее хранить в cookie для каждой клетки?",
+        answer: "code",
         options: [
           {
-            value: "15",
-            label: "15",
-            explain: "Нет: 50 * 15 = 750, этого мало.",
+            value: "rgb",
+            label: "Полную строку `rgb(...)`",
+            explain:
+              "Можно, но это длиннее, менее удобно и сложнее сравнивать в логике.",
           },
           {
-            value: "20",
-            label: "20",
-            explain: "Верно: 50 * 20 = 1000, сетка совпадет с количеством клеток.",
+            value: "code",
+            label: "Короткий код цвета",
+            explain:
+              "Верно: один символ на клетку делает строку компактной и предсказуемой.",
           },
           {
-            value: "30",
-            label: "30",
-            explain: "Нет: 50 * 30 = 1500, это уже слишком много.",
+            value: "html",
+            label: "Готовый HTML клетки",
+            explain:
+              "Нет: хранить в cookie HTML целиком для каждой клетки — лишняя и хрупкая схема.",
           },
         ],
         body:
-          "<p>В `grid-template-rows` нужно заменить 15 на 20. Это главный математический шаг в этой части.</p>",
+          "<p>Для cookie лучше хранить не CSS, а коды вроде <code>0</code>, <code>1</code>, <code>2</code>. Тогда строка состояния получится короткой, а восстановление — простым.</p>",
       },
       {
         level: "Средняя подсказка",
         difficulty: "Вопрос чуть точнее",
-        question: "Клетка должна быть фиксированной или подстраиваться под сетку?",
-        answer: "percent",
+        question: "Где лучше записывать код цвета конкретной клетки во время работы редактора?",
+        answer: "dataset",
         options: [
           {
-            value: "fixed",
-            label: "Фиксированной",
-            explain: "Нет: фиксированные 25px могут выталкивать сетку и ломать размеры поля.",
-          },
-          {
-            value: "percent",
-            label: "Подстраиваться под ячейку",
-            explain: "Верно: через `width: 100%` и `height: 100%` клетка занимает всю свою grid-ячейку.",
-          },
-          {
-            value: "none",
-            label: "Без размеров",
-            explain: "Не лучший вариант: размеры стоит задать через сетку.",
-          },
-        ],
-        body:
-          "<p>Убери у `.cell` фиксированные 25px. Пусть размер клетки задает сама сетка.</p>",
-      },
-      {
-        level: "Почти готовое решение",
-        difficulty: "Точный вопрос",
-        question: "Какой блок должен стать grid-контейнером?",
-        answer: "field",
-        options: [
-          {
-            value: "field",
-            label: "`.field`",
-            explain: "Верно: внутри `.field` лежат все клетки, значит именно он и должен стать сеткой.",
-          },
-          {
-            value: "body",
-            label: "`body`",
-            explain: "Нет: весь документ не должен превращаться в пиксельную сетку.",
-          },
-          {
-            value: "footer",
-            label: "`.footer`",
-            explain: "Нет: подвал не связан с клетками поля.",
-          },
-        ],
-        body:
-          '<p>Настрой сетку и клетки так:</p><pre><code>.field {\n  display: grid;\n  grid-template-columns: repeat(50, minmax(0, 1fr));\n  grid-template-rows: repeat(20, minmax(0, 1fr));\n  gap: 1px;\n}\n\n.cell {\n  width: 100%;\n  height: 100%;\n  background-color: white;\n  border: 1px solid #d9d9d9;\n}</code></pre><p>Теперь каждая из 1000 клеток получит свое место в сетке.</p>',
-      },
-    ],
-  },
-  {
-    title: "Добавь адаптивность",
-    goal: "Редактор должен нормально открываться и на компьютере, и на телефоне.",
-    before:
-      "У панели и поля много жестких размеров, поэтому на маленьком экране все теснится.",
-    change:
-      "Разреши панели переноситься на новые строки и добавь медиазапросы для меньшей ширины поля.",
-    why:
-      "На узком экране кнопки не будут налезать друг на друга, а поле останется доступным.",
-    task:
-      "Проверь `.header`, `.color-picker`, группы кнопок и медиазапросы в конце `draw.css`.",
-    recap:
-      "Ты сделал страницу более гибкой: панель умеет переноситься, а поле не ломает экран на телефоне. Теперь редактор удобнее открывать на разной ширине.",
-    result: {
-      location: "Где править: `draw.css`, шапка, панель инструментов и медиазапросы внизу файла.",
-      before: `.header {
-  display: flex;
-}
-
-.color-picker {
-  width: 450px;
-}`,
-      after: `.header {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.color-picker,
-.colors,
-.addons {
-  flex-wrap: wrap;
-}
-
-@media (max-width: 900px) {
-  .field {
-    min-width: 520px;
-  }
-}
-
-@media (max-width: 640px) {
-  body {
-    overflow: auto;
-  }
-
-  .field {
-    min-width: 460px;
-    min-height: 300px;
-  }
-
-  .color-picker {
-    width: 100%;
-  }
-}`,
-      note:
-        "Главная идея — не заставлять все влезать в одну строку на маленьком экране.",
-    },
-    hints: [
-      {
-        level: "Маленькая подсказка",
-        difficulty: "Простой вопрос",
-        question: "Что должны делать кнопки на узком экране?",
-        answer: "wrap",
-        options: [
-          {
-            value: "nowrap",
-            label: "Оставаться в одну строку",
-            explain: "Нет: тогда кнопки начнут наезжать друг на друга.",
-          },
-          {
-            value: "wrap",
-            label: "Переноситься",
-            explain: "Верно: `flex-wrap: wrap` позволяет кнопкам уходить на новую строку.",
-          },
-          {
-            value: "hide",
-            label: "Прятаться",
-            explain: "Нет: инструменты должны оставаться доступными.",
-          },
-        ],
-        body:
-          "<p>Добавь <code>flex-wrap: wrap;</code> туда, где кнопки могут не помещаться в одну строку.</p>",
-      },
-      {
-        level: "Средняя подсказка",
-        difficulty: "Вопрос чуть точнее",
-        question: "Где лучше писать стили для телефона?",
-        answer: "media",
-        options: [
-          {
-            value: "media",
-            label: "В `@media`",
-            explain: "Верно: отдельные правила для узких экранов обычно пишут в медиазапросах.",
-          },
-          {
-            value: "script",
-            label: "В `draw.js`",
-            explain: "Нет: размеры и переносы меняются через CSS, а не через JS.",
+            value: "dataset",
+            label: "В `cell.dataset`",
+            explain:
+              "Верно: `dataset` удобно хранит служебное состояние прямо на DOM-элементе.",
           },
           {
             value: "title",
             label: "В `title`",
-            explain: "Нет: `title` относится только к вкладке браузера.",
+            explain:
+              "Нет: `title` нужен для подсказок в интерфейсе, а не для рабочих данных.",
+          },
+          {
+            value: "class",
+            label: "Только в `className`",
+            explain:
+              "Можно, но в твоем проекте это будет менее прозрачно, чем отдельное `data-*` свойство.",
           },
         ],
         body:
-          "<p>Внизу файла добавь блоки <code>@media (max-width: 900px)</code> и <code>@media (max-width: 640px)</code>.</p>",
+          "<p>Самый удобный вариант здесь — писать код в <code>cell.dataset.colorCode</code>. Тогда и сериализация, и отладка становятся простыми: ты всегда видишь, какой код реально лежит в клетке.</p>",
       },
       {
         level: "Почти готовое решение",
         difficulty: "Точный вопрос",
-        question: "Что лучше включить у страницы на телефоне?",
-        answer: "auto",
+        question: "Зачем нужна отдельная функция `applyCellColor`, а не прямые `style.backgroundColor = ...` в нескольких местах?",
+        answer: "one-place",
         options: [
           {
-            value: "auto",
-            label: "Прокрутку",
-            explain: "Верно: на телефоне странице лучше вернуть `overflow: auto`, чтобы ничего не обрезалось.",
+            value: "one-place",
+            label: "Чтобы вся логика клетки жила в одном месте",
+            explain:
+              "Верно: одна функция сразу задает и цвет, и рамку, и код клетки.",
           },
           {
-            value: "hidden",
-            label: "Скрытие переполнения",
-            explain: "Нет: так часть редактора может просто исчезнуть.",
+            value: "speed",
+            label: "Только ради скорости",
+            explain:
+              "Не в этом главная цель. Главное здесь — порядок и единый источник состояния.",
           },
           {
-            value: "none",
-            label: "Ничего",
-            explain: "Не лучший вариант: на узком экране тогда легко потерять часть интерфейса.",
+            value: "random",
+            label: "Просто так удобнее на глаз",
+            explain:
+              "Нет: здесь есть конкретная инженерная причина — убрать дублирование и расхождение состояний.",
           },
         ],
         body:
-          '<p>Добавь простые медиазапросы:</p><pre><code>@media (max-width: 900px) {\n  .field {\n    min-width: 520px;\n  }\n}\n\n@media (max-width: 640px) {\n  body {\n    overflow: auto;\n  }\n\n  .workspace {\n    padding: 8px;\n  }\n\n  .field {\n    min-width: 460px;\n    min-height: 300px;\n  }\n\n  .color-picker {\n    width: 100%;\n  }\n}</code></pre><p>Этого уже достаточно, чтобы страница вела себя спокойнее на телефоне.</p>',
+          '<p>Добавь в верхнюю часть <code>update.js</code> такую основу:</p><pre><code>let saveImageButton = document.querySelector(".save-image");\n\nconst COOKIE_NAME = "pixel-draw-state";\n\nconst COLOR_TO_CODE = {\n  white: "0",\n  black: "1",\n  red: "2",\n  green: "3",\n  blue: "4",\n  yellow: "5",\n  purple: "6",\n  brown: "7",\n  pink: "8",\n};\n\nconst CODE_TO_COLOR = {\n  "0": { background: "#ffffff", border: "#d9d9d9" },\n  "1": { background: "#000000", border: "#111" },\n  "2": { background: "#ff0000", border: "#111" },\n  "3": { background: "#008000", border: "#111" },\n  "4": { background: "#0000ff", border: "#111" },\n  "5": { background: "#ffea00", border: "#111" },\n  "6": { background: "#800080", border: "#111" },\n  "7": { background: "#a52a2a", border: "#111" },\n  "8": { background: "#ffc0cb", border: "#111" },\n};\n\nfunction getCodeByColorName(colorName) {\n  return COLOR_TO_CODE[colorName] ?? "0";\n}\n\nfunction applyCellColor(cell, colorCode) {\n  const state = CODE_TO_COLOR[colorCode] ?? CODE_TO_COLOR["0"];\n  cell.dataset.colorCode = colorCode;\n  cell.style.backgroundColor = state.background;\n  cell.style.borderColor = state.border;\n}</code></pre><p>После этого все места, где клетка красится, стоит постепенно перевести на вызов <code>applyCellColor(...)</code>.</p>',
       },
     ],
   },
   {
-    title: "Сделай рисование по клеткам",
-    goal: "Исправь `draw.js`, чтобы можно было рисовать кликом и протягиванием.",
+    title: "Восстанови рисунок из cookie при запуске",
+    goal:
+      "Теперь научи редактор читать ранее сохраненное состояние и применять его к уже созданной сетке.",
     before:
-      "Клетки создаются, но у них нет нормальных обработчиков рисования.",
+      "Сейчас при каждом открытии страницы сетка создается заново с пустыми белыми клетками. Даже если ты добавишь сохранение, без отдельной загрузки из cookie рисунок после перезапуска не вернется.",
     change:
-      "Сохрани клетки в массив `cells` и добавь события `pointerdown` и `pointerenter`.",
+      "Добавь функции `readCookie(name)` и `loadGridFromCookie()`. Сначала создай все 1000 клеток, задай им начальный код `0`, а потом вызови `loadGridFromCookie()`, чтобы заменить белые клетки на сохраненные цвета там, где это нужно.",
     why:
-      "Так рисование будет работать и мышью, и пальцем.",
+      "Загрузка должна происходить после создания сетки. Если попытаться восстановить рисунок раньше, клеток еще не будет, и применять сохраненные данные будет просто не к чему.",
     task:
-      "Правь цикл, где создаются клетки. Там удобнее сразу добавить поведение каждой клетки.",
+      "На этом шаге не записывай cookie обратно. Сфокусируйся только на чтении и правильном порядке запуска: создать клетки -> прочитать cookie -> раскрасить клетки по сохраненной строке.",
     recap:
-      "Ты научил клетки реагировать на нажатие и движение указателя. Благодаря этому редактор начал действительно рисовать, а не просто создавать пустую сетку.",
+      "Теперь редактор умеет поднимать старое состояние при запуске. Это первая половина задачи про сохранение между перезапусками: рисунок уже можно вернуть после обновления страницы.",
     result: {
-      location: "Где править: `draw.js`, цикл создания клеток и обработчики на документе.",
+      location:
+        "Где править: `update.js`, рядом с созданием клеток и сразу после цикла `for`.",
       before: `for (let i = 0; i < maxFields; i++) {
-  let cell = document.createElement("div");
-  cell.classList.add("cell");
-  cell.setAttribute("id", \`\${i}\`);
-  field.appendChild(cell);
-}
-
-document.addEventListener("mousedown", function () {
-  IS_CLICKED = true;
-});`,
-      after: `let cells = [];
-
-document.addEventListener("pointerdown", function () {
-  IS_CLICKED = true;
-});
-
-document.addEventListener("pointerup", function () {
-  IS_CLICKED = false;
-});
-
-for (let i = 0; i < maxFields; i++) {
   let cell = document.createElement("div");
   cell.classList.add("cell");
   cell.setAttribute("id", \`\${i}\`);
@@ -677,477 +319,427 @@ for (let i = 0; i < maxFields; i++) {
   cells.push(cell);
 
   cell.addEventListener("pointerdown", function () {
-    cell.style.backgroundColor = color;
-    cell.style.borderColor = color === "white" ? "#d9d9d9" : "#111";
-  });
-
-  cell.addEventListener("pointerenter", function () {
-    if (IS_CLICKED) {
-      cell.style.backgroundColor = color;
-      cell.style.borderColor = color === "white" ? "#d9d9d9" : "#111";
-    }
+    ...
   });
 }`,
+      after: `function readCookie(name) {
+  const prefix = name + "=";
+  const cookies = document.cookie.split("; ");
+
+  for (let i = 0; i < cookies.length; i++) {
+    if (cookies[i].startsWith(prefix)) {
+      return cookies[i].slice(prefix.length);
+    }
+  }
+
+  return "";
+}
+
+function loadGridFromCookie() {
+  const savedState = readCookie(COOKIE_NAME);
+
+  if (!savedState || savedState.length !== maxFields) {
+    return;
+  }
+
+  for (let i = 0; i < cells.length; i++) {
+    applyCellColor(cells[i], savedState[i]);
+  }
+}
+
+for (let i = 0; i < maxFields; i++) {
+  let cell = document.createElement("div");
+  cell.classList.add("cell");
+  cell.setAttribute("id", \`\${i}\`);
+  applyCellColor(cell, "0");
+  field.appendChild(cell);
+  cells.push(cell);
+
+  cell.addEventListener("pointerdown", function () {
+    ...
+  });
+}
+
+loadGridFromCookie();`,
       note:
-        "Главный смысл — клетка должна краситься и при первом нажатии, и при протягивании по соседним клеткам.",
+        "Мы не копируем из `pixel_M4L3` весь код загрузки один в один. Там логика смешана с созданием клеток, а здесь лучше разделить чтение cookie и создание DOM — так понятнее и надежнее.",
     },
     hints: [
       {
         level: "Маленькая подсказка",
         difficulty: "Простой вопрос",
-        question: "Какое событие срабатывает при нажатии на клетку?",
-        answer: "pointerdown",
+        question: "Когда правильнее вызывать `loadGridFromCookie()`?",
+        answer: "after",
         options: [
           {
-            value: "pointerdown",
-            label: "`pointerdown`",
-            explain: "Верно: это событие срабатывает в момент нажатия и сразу дает закрасить клетку.",
+            value: "before",
+            label: "До создания клеток",
+            explain:
+              "Нет: тогда функция попытается восстановить цвет в клетки, которых еще нет в массиве `cells`.",
           },
           {
-            value: "pointerup",
-            label: "`pointerup`",
-            explain: "Нет: оно срабатывает уже при отпускании, а рисовать нужно раньше.",
+            value: "after",
+            label: "После создания клеток",
+            explain:
+              "Верно: сначала нужно создать DOM, а потом накладывать на него сохраненное состояние.",
           },
           {
-            value: "scroll",
-            label: "`scroll`",
-            explain: "Нет: прокрутка страницы не связана с рисованием по клетке.",
+            value: "never",
+            label: "Вообще не вызывать",
+            explain:
+              "Нет: тогда cookie будет только записываться, но никогда не использоваться.",
           },
         ],
         body:
-          "<p>На каждую клетку добавь обработчик <code>pointerdown</code>, чтобы она красилась сразу при нажатии.</p>",
+          "<p>Порядок здесь очень важен: сперва цикл создает клетки и наполняет массив <code>cells</code>, только потом функция восстановления может пройтись по этим клеткам и покрасить их.</p>",
       },
       {
         level: "Средняя подсказка",
         difficulty: "Вопрос чуть точнее",
-        question: "Какое событие помогает красить соседние клетки при протягивании?",
-        answer: "pointerenter",
+        question: "Что нужно проверить перед восстановлением состояния из cookie?",
+        answer: "length",
         options: [
           {
-            value: "pointerenter",
-            label: "`pointerenter`",
-            explain: "Верно: когда указатель входит в новую клетку, ее можно закрасить, если кнопка зажата.",
+            value: "font",
+            label: "Какой шрифт на странице",
+            explain:
+              "Нет: шрифт не связан с валидностью сохраненного состояния сетки.",
           },
           {
-            value: "keyup",
-            label: "`keyup`",
-            explain: "Нет: это событие клавиатуры, а не мыши или пальца.",
+            value: "length",
+            label: "Что строка cookie существует и имеет правильную длину",
+            explain:
+              "Верно: если длина строки не совпадает с числом клеток, восстанавливать ее опасно.",
           },
           {
-            value: "load",
-            label: "`load`",
-            explain: "Нет: оно срабатывает только при загрузке страницы.",
+            value: "button",
+            label: "Что найдена кнопка сохранения",
+            explain:
+              "Кнопка нужна для экспорта, но не для чтения уже сохраненного состояния.",
           },
         ],
         body:
-          "<p>В обработчике <code>pointerenter</code> проверь флаг <code>IS_CLICKED</code>. Если он <code>true</code>, клетку можно красить.</p>",
+          "<p>Перед восстановлением обязательно проверь, что строка из cookie не пустая и что ее длина совпадает с <code>maxFields</code>. Это защитит тебя от частично битых данных.</p>",
       },
       {
         level: "Почти готовое решение",
         difficulty: "Точный вопрос",
-        question: "Зачем сохранять клетки в массив `cells`?",
-        answer: "all",
+        question: "Какой начальный код цвета нужно задавать новой клетке до чтения cookie?",
+        answer: "0",
         options: [
           {
-            value: "all",
-            label: "Чтобы потом пройтись по всем клеткам",
-            explain: "Верно: этот же массив потом пригодится для очистки и общей заливки.",
+            value: "0",
+            label: "`0`",
+            explain:
+              "Верно: это код пустой белой клетки, от которого удобно стартовать.",
           },
           {
-            value: "one",
-            label: "Чтобы работать с одной клеткой",
-            explain: "Нет: для одной клетки массив вообще не нужен.",
+            value: "1",
+            label: "`1`",
+            explain:
+              "Нет: это сделает все клетки черными еще до восстановления рисунка.",
           },
           {
-            value: "text",
-            label: "Чтобы хранить текст",
-            explain: "Нет: текст в клетках не используется.",
+            value: "8",
+            label: "`8`",
+            explain:
+              "Нет: это произвольный цвет, а не нейтральное начальное состояние.",
           },
         ],
         body:
-          '<p>Используй такой вариант:</p><pre><code>let cells = [];\n\nfor (let i = 0; i &lt; maxFields; i++) {\n  let cell = document.createElement("div");\n  cell.classList.add("cell");\n  cell.setAttribute("id", `${i}`);\n  field.appendChild(cell);\n  cells.push(cell);\n\n  cell.addEventListener("pointerdown", function () {\n    cell.style.backgroundColor = color;\n    cell.style.borderColor = color === "white" ? "#d9d9d9" : "#111";\n  });\n\n  cell.addEventListener("pointerenter", function () {\n    if (IS_CLICKED) {\n      cell.style.backgroundColor = color;\n      cell.style.borderColor = color === "white" ? "#d9d9d9" : "#111";\n    }\n  });\n}</code></pre><p>А глобальные обработчики тоже переведи на <code>pointerdown</code> и <code>pointerup</code>.</p>',
+          '<p>Добавь чтение и восстановление так:</p><pre><code>function readCookie(name) {\n  const prefix = name + "=";\n  const cookies = document.cookie.split("; ");\n\n  for (let i = 0; i < cookies.length; i++) {\n    if (cookies[i].startsWith(prefix)) {\n      return cookies[i].slice(prefix.length);\n    }\n  }\n\n  return "";\n}\n\nfunction loadGridFromCookie() {\n  const savedState = readCookie(COOKIE_NAME);\n\n  if (!savedState || savedState.length !== maxFields) {\n    return;\n  }\n\n  for (let i = 0; i < cells.length; i++) {\n    applyCellColor(cells[i], savedState[i]);\n  }\n}</code></pre><pre><code>for (let i = 0; i < maxFields; i++) {\n  let cell = document.createElement("div");\n  cell.classList.add("cell");\n  cell.setAttribute("id", `${i}`);\n  applyCellColor(cell, "0");\n  field.appendChild(cell);\n  cells.push(cell);\n  ...\n}\n\nloadGridFromCookie();</code></pre><p>Теперь редактор сначала строит поле, а потом поднимает сохраненный рисунок поверх пустого состояния.</p>',
       },
     ],
   },
   {
-    title: "Почини очистку и заливку",
-    goal: "Сделай так, чтобы `Clear`, ластик и `Fill All` работали аккуратно.",
+    title: "Сохраняй рисунок обратно в cookie",
+    goal:
+      "Теперь добавь вторую половину механизма: после действий пользователя редактор должен сам обновлять строку состояния в cookie.",
     before:
-      "`Clear` меняет только фон, а заливка запускает много одинаковых анимаций внутри цикла.",
+      "Сетка уже умеет читаться из cookie, но пока туда нечего читать: текущее состояние после рисования, очистки и заливки еще не сериализуется и не записывается обратно.",
     change:
-      "Очищай фон и границу каждой клетки. Для заливки запускай одну анимацию сразу на весь массив `cells`.",
+      "Добавь функции `writeCookie`, `serializeGrid` и `saveGridToCookie`. После этого обнови обработчики рисования, очистки и заливки: клетки крась через `applyCellColor`, а сохранение вызывай после завершенного действия. Для обычного рисования удобно сохранять на `pointerup`, а для `Clear` и `Fill All` — в конце их собственного обработчика.",
     why:
-      "Так поле возвращается к чистому виду, а заливка работает проще и быстрее.",
+      "Так ты избежишь двух крайностей: редактор не будет терять рисунок, и при этом не будет писать cookie хаотично из десятков мест без единого правила.",
     task:
-      "Правь обработчики `clear`, `erase` и `paintAll` в `draw.js`. Новые инструменты добавлять не нужно.",
+      "Здесь особенно важно не размазывать логику. Сначала собери строку состояния из `dataset.colorCode`, потом одной функцией запиши ее в cookie, и только затем подключай эту функцию к нужным событиям.",
     recap:
-      "Ты довел инструменты до рабочего состояния: очистка полностью сбрасывает клетки, ластик рисует белым, а общая заливка больше не запускает сотни одинаковых анимаций.",
+      "Теперь сохранение стало двусторонним: редактор не только восстанавливает старый рисунок, но и сам поддерживает cookie в актуальном состоянии после каждого изменения поля.",
     result: {
-      location: "Где править: `draw.js`, обработчики `clear`, `erase` и `paintAll`.",
-      before: `clear.addEventListener("click", () => {
-  for (let i = 0; i < buttons.length; i++) {
-    buttons[i].style.backgroundColor = "white";
+      location:
+        "Где править: `update.js`, рядом с вспомогательными функциями и обработчиками событий.",
+      before: `cell.addEventListener("pointerdown", function () {
+  cell.style.backgroundColor = color;
+  cell.style.borderColor = color === "white" ? "#d9d9d9" : "#111";
+});
+
+cell.addEventListener("pointerenter", function () {
+  if (IS_CLICKED) {
+    cell.style.backgroundColor = color;
+    cell.style.borderColor = color === "white" ? "#d9d9d9" : "#111";
   }
 });
 
-paintAll.addEventListener("click", () => {
-  for (let i = 0; i < buttons.length; i++) {
-    anime({
-      targets: document.querySelectorAll(".cell"),
-      ...
-    });
-  }
-});`,
-      after: `clear.addEventListener("click", function () {
-  FILL_MODE = false;
-
+clear.addEventListener("click", function () {
   for (let i = 0; i < cells.length; i++) {
     cells[i].style.backgroundColor = "white";
     cells[i].style.borderColor = "#d9d9d9";
   }
+});`,
+      after: `function writeCookie(name, value, maxAgeSeconds = 60 * 60 * 24 * 30) {
+  document.cookie = \`\${name}=\${value}; max-age=\${maxAgeSeconds}; path=/; SameSite=Lax\`;
+}
+
+function serializeGrid() {
+  return cells.map((cell) => cell.dataset.colorCode ?? "0").join("");
+}
+
+function saveGridToCookie() {
+  writeCookie(COOKIE_NAME, serializeGrid());
+}
+
+document.addEventListener("pointerup", function () {
+  if (IS_CLICKED) {
+    saveGridToCookie();
+  }
+
+  IS_CLICKED = false;
 });
 
-erase.addEventListener("click", function () {
-  color = "white";
+cell.addEventListener("pointerdown", function () {
+  applyCellColor(cell, getCodeByColorName(color));
 });
 
-paintAll.addEventListener("click", function () {
-  FILL_MODE = true;
+cell.addEventListener("pointerenter", function () {
+  if (IS_CLICKED) {
+    applyCellColor(cell, getCodeByColorName(color));
+  }
+});
 
-  let targetColor = color;
-  let borderColor = color === "white" ? "#d9d9d9" : "#111";
+clear.addEventListener("click", function () {
+  FILL_MODE = false;
 
-  anime({
-    targets: cells,
-    backgroundColor: targetColor,
-    duration: 1200,
-    easing: "easeInOutQuad",
-    complete: function () {
-      for (let i = 0; i < cells.length; i++) {
-        cells[i].style.backgroundColor = targetColor;
-        cells[i].style.borderColor = borderColor;
-      }
-    },
-  });
+  for (let i = 0; i < cells.length; i++) {
+    applyCellColor(cells[i], "0");
+  }
+
+  saveGridToCookie();
 });`,
       note:
-        "Главная идея — работать не с новым поиском элементов каждый раз, а с уже готовым массивом `cells`.",
+        "В примере `pixel_M4L3` сохранение идет по таймеру. Для проекта ученика надежнее и понятнее сохранять после завершенного действия: это проще объяснить и легче отлаживать.",
     },
     hints: [
       {
         level: "Маленькая подсказка",
         difficulty: "Простой вопрос",
-        question: "Какой цвет выбирает ластик?",
-        answer: "white",
+        question: "Из чего удобнее всего собирать строку состояния сетки?",
+        answer: "dataset",
         options: [
           {
-            value: "black",
-            label: "Черный",
-            explain: "Нет: черный — обычный цвет рисования, а не ластик.",
+            value: "dataset",
+            label: "Из `cell.dataset.colorCode`",
+            explain:
+              "Верно: там уже лежит короткий и стабильный код каждой клетки.",
           },
           {
-            value: "white",
-            label: "Белый",
-            explain: "Верно: ластик здесь работает как рисование белым цветом.",
+            value: "offset",
+            label: "Из размеров клетки",
+            explain:
+              "Нет: размеры клетки вообще не говорят, каким цветом она заполнена.",
           },
           {
-            value: "blue",
-            label: "Синий",
-            explain: "Нет: это просто один из цветов палитры.",
+            value: "title",
+            label: "Из `title` кнопок",
+            explain:
+              "Нет: `title` у кнопок описывает инструменты, а не состояние поля.",
           },
         ],
         body:
-          "<p>Для ластика достаточно оставить <code>color = \"white\";</code>. Тогда клетка снова становится белой.</p>",
+          "<p>Поскольку на прошлом шаге ты уже перенес код цвета в <code>dataset</code>, теперь именно оттуда удобнее собирать строку для cookie: просто пробеги по всем клеткам и склей коды в одну длинную строку.</p>",
       },
       {
         level: "Средняя подсказка",
         difficulty: "Вопрос чуть точнее",
-        question: "Что нужно сбросить у клетки при очистке?",
-        answer: "both",
+        question: "Когда удобнее сохранять результат обычного рисования кистью?",
+        answer: "pointerup",
         options: [
           {
-            value: "background",
-            label: "Только фон",
-            explain: "Не хватает: граница может остаться темной и поле будет выглядеть грязно.",
+            value: "page-load",
+            label: "При загрузке страницы",
+            explain:
+              "Нет: в этот момент еще нет нового результата, который нужно сохранить.",
           },
           {
-            value: "both",
-            label: "Фон и границу",
-            explain: "Верно: после очистки клетка должна выглядеть как новая.",
+            value: "pointerup",
+            label: "На `pointerup` после рисования",
+            explain:
+              "Верно: это хороший момент, когда пользователь закончил текущий жест рисования.",
           },
           {
-            value: "id",
-            label: "Ее `id`",
-            explain: "Нет: `id` клетки менять не нужно.",
+            value: "never",
+            label: "Вообще не сохранять кисть",
+            explain:
+              "Нет: тогда в cookie попадут только очистка и заливка, а обычный рисунок будет теряться.",
           },
         ],
         body:
-          "<p>В обработчике <code>Clear</code> пройди по <code>cells</code> и верни каждой клетке белый фон и границу <code>#d9d9d9</code>.</p>",
+          "<p>Если сохранять на каждом <code>pointerenter</code>, cookie будет переписываться слишком часто. Для обычного рисования удобнее дождаться <code>pointerup</code>: пользователь завершил движение — можно зафиксировать итоговое состояние.</p>",
       },
       {
         level: "Почти готовое решение",
         difficulty: "Точный вопрос",
-        question: "Сколько раз нужно вызвать `anime()` для общей заливки?",
-        answer: "one",
+        question: "Какую функцию нужно вызывать после `Clear` и в конце заливки, чтобы состояние точно не потерялось?",
+        answer: "save",
         options: [
           {
-            value: "one",
-            label: "Один раз",
-            explain: "Верно: одной анимации на весь массив `cells` достаточно.",
+            value: "save",
+            label: "`saveGridToCookie()`",
+            explain:
+              "Верно: после действий, которые меняют сразу много клеток, нужно явно записать новый результат в cookie.",
           },
           {
-            value: "many",
-            label: "Много раз в цикле",
-            explain: "Нет: это создает лишнюю работу и повторяет одну и ту же анимацию.",
+            value: "read",
+            label: "`readCookie()`",
+            explain:
+              "Нет: `readCookie()` только читает старое состояние, но не сохраняет новое.",
           },
           {
-            value: "zero",
-            label: "Ни разу",
-            explain: "Нет: тогда заливка останется без анимации.",
+            value: "render",
+            label: "`renderGrid()`",
+            explain:
+              "Такой функции у тебя вообще нет в текущем проекте; здесь нужно именно сохранить строку состояния.",
           },
         ],
         body:
-          '<p>Очистка:</p><pre><code>clear.addEventListener("click", function () {\n  FILL_MODE = false;\n\n  for (let i = 0; i &lt; cells.length; i++) {\n    cells[i].style.backgroundColor = "white";\n    cells[i].style.borderColor = "#d9d9d9";\n  }\n});</code></pre><p>Заливка:</p><pre><code>paintAll.addEventListener("click", function () {\n  FILL_MODE = true;\n\n  let targetColor = color;\n  let borderColor = color === "white" ? "#d9d9d9" : "#111";\n\n  anime({\n    targets: cells,\n    backgroundColor: targetColor,\n    duration: 1200,\n    easing: "easeInOutQuad",\n    complete: function () {\n      for (let i = 0; i &lt; cells.length; i++) {\n        cells[i].style.backgroundColor = targetColor;\n        cells[i].style.borderColor = borderColor;\n      }\n    },\n  });\n});</code></pre><p>Теперь очистка и общая заливка опираются на один и тот же массив клеток.</p>',
+          '<p>Добавь сохранение так:</p><pre><code>function writeCookie(name, value, maxAgeSeconds = 60 * 60 * 24 * 30) {\n  document.cookie = `${name}=${value}; max-age=${maxAgeSeconds}; path=/; SameSite=Lax`;\n}\n\nfunction serializeGrid() {\n  return cells.map((cell) => cell.dataset.colorCode ?? "0").join("");\n}\n\nfunction saveGridToCookie() {\n  writeCookie(COOKIE_NAME, serializeGrid());\n}</code></pre><pre><code>document.addEventListener("pointerup", function () {\n  if (IS_CLICKED) {\n    saveGridToCookie();\n  }\n\n  IS_CLICKED = false;\n});\n\ncell.addEventListener("pointerdown", function () {\n  applyCellColor(cell, getCodeByColorName(color));\n});\n\ncell.addEventListener("pointerenter", function () {\n  if (IS_CLICKED) {\n    applyCellColor(cell, getCodeByColorName(color));\n  }\n});</code></pre><pre><code>clear.addEventListener("click", function () {\n  FILL_MODE = false;\n\n  for (let i = 0; i < cells.length; i++) {\n    applyCellColor(cells[i], "0");\n  }\n\n  saveGridToCookie();\n});</code></pre><p>По той же логике в обработчике общей заливки нужно в конце применить код ко всем клеткам и затем вызвать <code>saveGridToCookie()</code>.</p>',
       },
     ],
   },
   {
-    title: "Доведи проект до итогового вида",
-    goal: "В конце добери оставшиеся отличия, чтобы `draw.*` совпал с готовой версией.",
+    title: "Добавь экспорт поля через dom-to-image",
+    goal:
+      "Последний шаг — превратить текущее содержимое `.field` в скачиваемую картинку по нажатию на новую кнопку.",
     before:
-      "Основная логика уже работает, но в `draw.html` и `draw.css` еще могут остаться мелкие отличия от готового проекта.",
+      "Кнопка сохранения уже есть, библиотека подключена, состояние сетки хранится и восстанавливается. Но пока нажатие на кнопку ничего не делает.",
     change:
-      "Поправь `title`, подключение шрифта, `alt` у логотипа, `type` и `title` у кнопок, а в CSS добери фон страницы, размеры панели, кнопок, подвала и последние мелкие стили.",
+      "Добавь обработчик для `.save-image`, вызови `domtoimage.toPng(field)`, создай временную ссылку и запусти скачивание файла. В случае ошибки выведи сообщение в `console.error`, чтобы было понятно, если экспорт сломается.",
     why:
-      "Это последний слой: проект не просто работает, а выглядит и оформлен так же, как готовая версия.",
+      "Новая функция должна работать независимо от cookie: cookie сохраняет рабочее состояние редактора, а `dom-to-image` делает уже готовый пользовательский экспорт в отдельный файл.",
     task:
-      "Вернись к `draw.html` и `draw.css`, добери мелкие отличия и потом проверь проект целиком.",
+      "Цель этого шага — сохранить именно содержимое `.field`, а не весь `body` страницы. Экспортировать нужно поле с клетками, без шапки и кнопок.",
     recap:
-      "Ты добрал последние мелочи: название вкладки, подключение шрифта, аккуратные кнопки, размеры панели и оформление подвала. После этого `draw.*` уже повторяет готовую версию целиком.",
+      "Ты завершил функциональность: теперь редактор хранит рисунок между перезапусками и умеет отдавать текущее поле отдельной картинкой на компьютер пользователя.",
     result: {
-      location: "Где править: верх `draw.html`, блок `header` и последние стили в `draw.css`.",
-      before: `<title>Document</title>
-<link rel="stylesheet" href="draw.css" />
-<link rel="preconnect" href="https://gstatic.com" crossorigin />
-<link href="https://googleapis.com" rel="stylesheet" />
-
-<div class="logo"><img src="images/Logo.png" alt="" /></div>
-<a href="../index.html"><button class="button_back">⬅</button></a>
-<button class="red"></button>
-
-.logo img {
-  width: 100px;
-  height: 100px;
-}
-
-.button_back {
-  width: 49px;
-  height: 55px;
-}
-
-.color-picker {
-  width: 450px;
-  height: 100px;
-}
-
-.clear {
-  background-color: white;
-}
-
-.cell:hover {
-  background-color: gray;
-}
-
-.footer {
-  min-height: 100px;
-  position: sticky;
-}`,
-      after: `<title>Pixel Draw</title>
-<link rel="stylesheet" href="draw.css" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap"
-  rel="stylesheet"
-/>
-
-<div class="logo">
-  <img src="images/Logo.png" alt="Logo" />
-</div>
-<a href="../index.html">
-  <button class="button_back" type="button">⬅</button>
-</a>
-<button class="red" type="button" title="Red"></button>
-<button class="black" type="button" title="Black"></button>
-...
-<button class="erase" type="button" title="Erase"></button>
-
-.logo img {
-  width: 84px;
-  height: 84px;
-  object-fit: cover;
-  display: block;
-}
-
-.button_back {
-  background: white;
-}
-
-body {
-  background: #f3f6fb;
-}
-
-.header {
-  min-height: 100px;
-  padding: 10px;
-  gap: 12px;
-  flex-wrap: wrap;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-}
-
-.color-picker {
-  width: min(100%, 720px);
-  padding: 8px;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  background-color: whitesmoke;
-}
-
-.colors,
-.addons {
-  min-height: 56px;
-  padding: 8px;
-  gap: 6px;
-  background: white;
-  justify-content: center;
-  align-items: center;
-}
-
-.red,
-.black,
-.green,
-.blue,
-.purple,
-.yellow,
-.brown,
-.pink,
-.erase {
-  width: 28px;
-  height: 28px;
-  margin: 0;
-}
-
-.paint-all,
-.clear {
-  height: 30px;
-  padding: 0 14px;
-  background-color: lightgray;
-  font-family: inherit;
-}
-
-.cell:hover {
-  filter: brightness(0.95);
-}
-
-.footer {
-  min-height: 50px;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.copyright {
-  margin: 0;
-}`,
+      location:
+        "Где править: `update.js`, ближе к концу файла, после основных обработчиков инструментов.",
+      before: `/* кнопка .save-image уже есть в HTML, но обработчика для нее пока нет */`,
+      after: `saveImageButton.addEventListener("click", function () {
+  domtoimage
+    .toPng(field)
+    .then(function (dataUrl) {
+      const link = document.createElement("a");
+      link.download = "pixel-draw.png";
+      link.href = dataUrl;
+      link.click();
+    })
+    .catch(function (error) {
+      console.error("Не удалось сохранить изображение:", error);
+    });
+});`,
       note:
-        "Смысл этого шага — собрать все последние визуальные и служебные отличия, которые не меняют логику, но делают проект полностью совпадающим с готовой версией.",
+        "В `pixel_M4L3` используется JPEG, но для пиксельного рисунка PNG обычно практичнее: картинка получается четче, и тебе не нужно переносить чужие мелкие решения один в один.",
     },
     hints: [
       {
         level: "Маленькая подсказка",
         difficulty: "Простой вопрос",
-        question: "Как должно называться готовое приложение во вкладке браузера?",
-        answer: "pixel",
+        question: "Какой DOM-элемент нужно превращать в картинку?",
+        answer: "field",
         options: [
           {
-            value: "document",
-            label: "`Document`",
-            explain: "Нет: это стандартная заготовка, а не название готового проекта.",
+            value: "body",
+            label: "`body`",
+            explain:
+              "Нет: тогда в файл попадет вся страница целиком, вместе с шапкой и кнопками.",
           },
           {
-            value: "pixel",
-            label: "`Pixel Draw`",
-            explain: "Верно: так вкладка сразу показывает название готового проекта.",
+            value: "field",
+            label: "`.field`",
+            explain:
+              "Верно: сохранять нужно именно рабочее поле с клетками.",
           },
           {
-            value: "draw",
-            label: "`Draw Page`",
-            explain: "Нет: в готовой версии используется конкретное имя `Pixel Draw`.",
+            value: "header",
+            label: "`.header`",
+            explain:
+              "Нет: шапка не содержит сам рисунок и не должна попадать в экспорт.",
           },
         ],
         body:
-          "<p>В `draw.html` поменяй содержимое тега <code>&lt;title&gt;</code> на <code>Pixel Draw</code>.</p>",
+          "<p>Твой рисунок находится внутри <code>.field</code>. Значит, именно этот DOM-узел и нужно передавать в библиотеку для экспорта.</p>",
       },
       {
         level: "Средняя подсказка",
         difficulty: "Вопрос чуть точнее",
-        question: "Что должна уметь панель инструментов, если места по ширине мало?",
-        answer: "wrap",
+        question: "Какой метод библиотеки лучше взять для четкого пиксельного результата?",
+        answer: "png",
         options: [
           {
-            value: "wrap",
-            label: "Переноситься на новую строку",
-            explain: "Верно: поэтому у панели и групп кнопок нужен перенос, а не жесткая одна строка.",
+            value: "png",
+            label: "`toPng`",
+            explain:
+              "Верно: PNG хорошо подходит для четкой сетки и резких цветовых границ.",
           },
           {
-            value: "hide",
-            label: "Обрезаться за краем",
-            explain: "Нет: инструменты должны оставаться доступными.",
+            value: "remove",
+            label: "`remove`",
+            explain:
+              "Нет: это вообще не метод экспорта изображения.",
           },
           {
-            value: "scroll",
-            label: "Всегда прокручиваться внутри себя",
-            explain: "Не лучший вариант: в готовой версии панель сначала старается переноситься.",
+            value: "cookie",
+            label: "`toCookie`",
+            explain:
+              "Нет: cookie и экспорт картинки — это две разные задачи.",
           },
         ],
         body:
-          "<p>Проверь у `.header`, `.color-picker`, `.colors` и `.addons` перенос элементов и нормальные отступы. Тогда панель выглядит аккуратно и на узких экранах.</p>",
+          "<p>Для такого редактора удобнее вызвать <code>domtoimage.toPng(field)</code>. Так проще получить четкую картинку без лишних потерь.</p>",
       },
       {
         level: "Почти готовое решение",
         difficulty: "Точный вопрос",
-        question: "Что лучше сделать с общими стилями цветных кнопок?",
-        answer: "group",
+        question: "Что нужно сделать после получения `dataUrl`, чтобы браузер действительно скачал файл?",
+        answer: "link",
         options: [
           {
-            value: "copy",
-            label: "Повторять размеры в каждом классе",
-            explain: "Нет: так код разрастается и его сложнее поддерживать.",
+            value: "alert",
+            label: "Показать `alert`",
+            explain:
+              "Нет: `alert` только покажет сообщение, но не скачает картинку.",
           },
           {
-            value: "group",
-            label: "Собрать общие размеры в одно правило",
-            explain: "Верно: общие размеры и рамки удобнее описать одним списком селекторов.",
+            value: "link",
+            label: "Создать временную ссылку и кликнуть по ней",
+            explain:
+              "Верно: это стандартный способ запустить скачивание файла из JS.",
           },
           {
-            value: "js",
-            label: "Перенести размеры в JS",
-            explain: "Нет: оформление кнопок — это задача CSS, а не JS.",
+            value: "reload",
+            label: "Перезагрузить страницу",
+            explain:
+              "Нет: перезагрузка не имеет отношения к скачиванию картинки.",
           },
         ],
         body:
-          '<p>Добери оставшиеся фрагменты так:</p><pre><code>&lt;title&gt;Pixel Draw&lt;/title&gt;\n&lt;link rel="preconnect" href="https://fonts.googleapis.com" /&gt;\n&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /&gt;\n&lt;link\n  href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;display=swap"\n  rel="stylesheet"\n/&gt;\n\n&lt;img src="images/Logo.png" alt="Logo" /&gt;\n&lt;button class="button_back" type="button"&gt;⬅&lt;/button&gt;\n&lt;button class="red" type="button" title="Red"&gt;&lt;/button&gt;</code></pre><pre><code>.header {\n  min-height: 100px;\n  padding: 10px;\n  gap: 12px;\n  flex-wrap: wrap;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.15);\n}\n\n.logo img {\n  width: 84px;\n  height: 84px;\n  object-fit: cover;\n  display: block;\n}\n\n.button_back {\n  background: white;\n}\n\n.color-picker {\n  width: min(100%, 720px);\n  padding: 8px;\n  gap: 8px;\n  flex-wrap: wrap;\n  justify-content: center;\n  align-items: center;\n  background-color: whitesmoke;\n}\n\n.colors,\n.addons {\n  min-height: 56px;\n  padding: 8px;\n  gap: 6px;\n  background: white;\n  justify-content: center;\n  align-items: center;\n}\n\n.red,\n.black,\n.green,\n.blue,\n.purple,\n.yellow,\n.brown,\n.pink,\n.erase {\n  width: 28px;\n  height: 28px;\n  margin: 0;\n}\n\n.paint-all,\n.clear {\n  background-color: lightgray;\n}\n\n.cell:hover {\n  filter: brightness(0.95);\n}\n\n.footer {\n  border-top: 1px solid rgba(255, 255, 255, 0.15);\n}\n\n.copyright {\n  margin: 0;\n}</code></pre><p>После этого проверь еще подвал, фон страницы и подписи к цветным кнопкам. Именно этот шаг добирает проект до точного итогового вида.</p>',
+          '<p>Добавь финальный обработчик так:</p><pre><code>saveImageButton.addEventListener("click", function () {\n  domtoimage\n    .toPng(field)\n    .then(function (dataUrl) {\n      const link = document.createElement("a");\n      link.download = "pixel-draw.png";\n      link.href = dataUrl;\n      link.click();\n    })\n    .catch(function (error) {\n      console.error("Не удалось сохранить изображение:", error);\n    });\n});</code></pre><p>Проверь результат так: нарисуй что-нибудь, перезагрузи страницу, убедись, что рисунок восстановился, затем нажми <code>Save Image</code> и открой скачанный PNG.</p>',
       },
     ],
   },
 ];
 
-const completedStorageKey = "pixel-instruction-completed";
-const solvedStorageKey = "pixel-instruction-solved-hints";
+const completedStorageKey = "pixel-m4l3-guide-completed";
+const solvedStorageKey = "pixel-m4l3-guide-solved";
 const stepsRoot = document.querySelector("#steps");
 const navRoot = document.querySelector("#stepNav");
 const progressText = document.querySelector("#progressText");
@@ -1210,7 +802,23 @@ function getValidationMessage(stepIndex) {
     return `Ты отметил шаг как выполненный. Теперь ответь на все ${total} вопроса этого шага, чтобы проверить себя. После верных ответов откроется готовый код.`;
   }
 
-  return `Ты отметил шаг как выполненный. Осталось ответить еще на ${remaining} из ${total} вопросов. После всех верных ответов откроется готовый код.`;
+  return `Шаг уже отмечен. Осталось ответить еще на ${remaining} из ${total} вопросов, и тогда откроется готовый код этого шага.`;
+}
+
+function getStepStatusText(stepIndex, isDone, allSolved) {
+  if (isDone && !allSolved) {
+    return "Шаг отмечен. Теперь ответь на все вопросы этого шага, чтобы проверить себя и открыть итоговый код.";
+  }
+
+  if (isDone && allSolved) {
+    return "Шаг выполнен и проверен. Итоговый код уже открыт ниже.";
+  }
+
+  if (!isDone && allSolved) {
+    return "Все вопросы уже пройдены. Теперь можешь смело отмечать шаг выполненным.";
+  }
+
+  return "Сначала попробуй сделать правку сам, а если застрянешь — открывай подсказку через вопрос.";
 }
 
 function render() {
@@ -1218,7 +826,7 @@ function render() {
     .map((step, index) => {
       const id = getStepId(index);
       return `
-        <a href="#${id}" class="${completedSteps.has(id) ? "is-done" : ""}" data-nav="${id}">
+        <a href="#${id}" class="${completedSteps.has(id) ? "is-done" : ""}">
           <span class="route__num">${index + 1}</span>
           <span class="route__title">${escapeHtml(step.title)}</span>
         </a>
@@ -1226,13 +834,9 @@ function render() {
     })
     .join("");
 
-  stepsRoot.innerHTML = steps
-    .map((step, index) => renderStep(step, index))
-    .join("");
-
+  stepsRoot.innerHTML = steps.map((step, index) => renderStep(step, index)).join("");
   updateProgress();
   updateSolvedState();
-  observeCurrentStep();
 }
 
 function renderStep(step, index) {
@@ -1243,7 +847,7 @@ function renderStep(step, index) {
   const needsValidation = isDone && !allSolved;
 
   return `
-    <article class="step ${isDone ? "is-done" : ""}" id="${stepId}" data-step="${stepId}" data-step-index="${index}">
+    <article class="step" id="${stepId}" data-step="${stepId}" data-step-index="${index}">
       <header class="step__header">
         <span class="step__number">${index + 1}</span>
         <div>
@@ -1252,7 +856,7 @@ function renderStep(step, index) {
         </div>
       </header>
 
-      <div class="flow" aria-label="Что было, что изменить и зачем">
+      <div class="flow">
         <section class="flow__item">
           <h3>Что было</h3>
           <p>${formatInlineCode(step.before)}</p>
@@ -1288,7 +892,7 @@ function renderStep(step, index) {
       <section class="step__result" data-step-result="${stepId}" ${allSolved ? "" : "hidden"}>
         <div class="step__result-head">
           <span class="hint__level">Итоговый код шага</span>
-          <p>${step.result.location}</p>
+          <p>${formatInlineCode(step.result.location)}</p>
         </div>
         <div class="result-grid">
           <section class="result-card">
@@ -1317,22 +921,6 @@ function renderStep(step, index) {
       </footer>
     </article>
   `;
-}
-
-function getStepStatusText(stepIndex, isDone, allSolved) {
-  if (isDone && !allSolved) {
-    return "Шаг отмечен. Теперь ответь на все вопросы этого шага, чтобы проверить себя и открыть готовый код.";
-  }
-
-  if (isDone && allSolved) {
-    return "Шаг выполнен и проверен. Готовый код уже открыт ниже.";
-  }
-
-  if (!isDone && allSolved) {
-    return "Все вопросы уже пройдены. Можешь смело отмечать шаг выполненным.";
-  }
-
-  return "Сделай шаг сам или открой подсказку после ответа на вопрос.";
 }
 
 function renderHint(hint, stepIndex, hintIndex) {
@@ -1384,32 +972,8 @@ function renderHint(hint, stepIndex, hintIndex) {
 function updateProgress() {
   const total = steps.length;
   const done = [...completedSteps].filter((id) => id.startsWith("step-")).length;
-
   progressText.textContent = `${done} из ${total} шагов`;
   progressBar.style.width = `${(done / total) * 100}%`;
-
-  document.querySelectorAll("[data-nav]").forEach((link) => {
-    link.classList.toggle("is-done", completedSteps.has(link.dataset.nav));
-  });
-
-  document.querySelectorAll("[data-step]").forEach((stepElement) => {
-    const stepIndex = Number(stepElement.dataset.stepIndex);
-    const isDone = completedSteps.has(stepElement.dataset.step);
-    const allSolved = getSolvedCount(stepIndex) === steps[stepIndex].hints.length;
-    const status = stepElement.querySelector(".step__status");
-    const button = stepElement.querySelector(".complete-step");
-    const recap = stepElement.querySelector("[data-step-recap]");
-    const checkin = stepElement.querySelector("[data-step-checkin]");
-
-    stepElement.classList.toggle("is-done", isDone);
-    status.textContent = getStepStatusText(stepIndex, isDone, allSolved);
-    button.textContent = isDone ? "Снять отметку" : "Отметить шаг выполненным";
-    recap.hidden = !isDone;
-    checkin.hidden = !(isDone && !allSolved);
-    if (isDone && !allSolved) {
-      checkin.querySelector("p").textContent = getValidationMessage(stepIndex);
-    }
-  });
 }
 
 function updateSolvedState() {
@@ -1417,9 +981,15 @@ function updateSolvedState() {
     const stepId = getStepId(stepIndex);
     const solvedCount = getSolvedCount(stepIndex);
     const allSolved = solvedCount === step.hints.length;
+    const isDone = completedSteps.has(stepId);
+
     const counter = document.querySelector(`[data-step-progress="${stepId}"]`);
     const result = document.querySelector(`[data-step-result="${stepId}"]`);
+    const recap = document.querySelector(`[data-step-recap="${stepId}"]`);
     const checkin = document.querySelector(`[data-step-checkin="${stepId}"]`);
+    const stepElement = document.querySelector(`[data-step="${stepId}"]`);
+    const status = stepElement?.querySelector(".step__status");
+    const button = stepElement?.querySelector(".complete-step");
 
     if (counter) {
       counter.textContent = allSolved
@@ -1431,45 +1001,28 @@ function updateSolvedState() {
       result.hidden = !allSolved;
     }
 
+    if (recap) {
+      recap.hidden = !isDone;
+    }
+
     if (checkin) {
-      const isDone = completedSteps.has(stepId);
       checkin.hidden = !(isDone && !allSolved);
       if (isDone && !allSolved) {
         checkin.querySelector("p").textContent = getValidationMessage(stepIndex);
       }
     }
 
-    step.hints.forEach((_, hintIndex) => {
-      const hintId = getHintId(stepIndex, hintIndex);
-      const hintElement = document.querySelector(`[data-hint="${hintId}"]`);
+    if (status) {
+      status.textContent = getStepStatusText(stepIndex, isDone, allSolved);
+    }
 
-      if (hintElement) {
-        hintElement.classList.toggle("is-solved", solvedHints.has(hintId));
-      }
-    });
+    if (button) {
+      button.textContent = isDone ? "Снять отметку" : "Отметить шаг выполненным";
+    }
   });
-}
 
-function observeCurrentStep() {
-  if (!("IntersectionObserver" in window)) return;
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-      if (!visible) return;
-
-      document.querySelectorAll("[data-nav]").forEach((link) => {
-        link.classList.toggle("is-active", link.dataset.nav === visible.target.id);
-      });
-    },
-    { rootMargin: "-20% 0px -65% 0px", threshold: [0.2, 0.6] },
-  );
-
-  document.querySelectorAll(".step").forEach((stepElement) => {
-    observer.observe(stepElement);
+  document.querySelectorAll("#stepNav a").forEach((link, index) => {
+    link.classList.toggle("is-done", completedSteps.has(getStepId(index)));
   });
 }
 
@@ -1516,21 +1069,21 @@ document.addEventListener("click", (event) => {
   const button = event.target.closest(".complete-step");
   if (!button) return;
 
-  const id = button.dataset.complete;
-  const stepElement = document.querySelector(`[data-step="${id}"]`);
+  const stepId = button.dataset.complete;
+  const stepElement = document.querySelector(`[data-step="${stepId}"]`);
   const stepIndex = Number(stepElement.dataset.stepIndex);
 
-  if (completedSteps.has(id)) {
-    completedSteps.delete(id);
+  if (completedSteps.has(stepId)) {
+    completedSteps.delete(stepId);
   } else {
-    completedSteps.add(id);
+    completedSteps.add(stepId);
   }
 
   saveStoredSet(completedStorageKey, completedSteps);
   updateProgress();
   updateSolvedState();
 
-  const isDone = completedSteps.has(id);
+  const isDone = completedSteps.has(stepId);
   const allSolved = getSolvedCount(stepIndex) === steps[stepIndex].hints.length;
 
   if (isDone && !allSolved) {
@@ -1545,7 +1098,7 @@ document.addEventListener("click", (event) => {
     window.setTimeout(() => {
       checkin.classList.remove("is-highlighted");
       practice.classList.remove("is-highlighted");
-    }, 1800);
+    }, 1500);
   }
 });
 
