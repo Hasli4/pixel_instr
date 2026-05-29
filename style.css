@@ -48,6 +48,7 @@ code {
   padding: 0.08rem 0.32rem;
   border-radius: 4px;
   background: rgba(31, 111, 91, 0.08);
+  overflow-wrap: anywhere;
 }
 
 .hero {
@@ -414,6 +415,7 @@ code {
 
 .option span {
   min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .hint__actions {
@@ -492,6 +494,7 @@ code {
   padding: 0;
   background: transparent;
   color: inherit;
+  overflow-wrap: normal;
 }
 
 .step__result {
@@ -571,6 +574,10 @@ code {
 .checklist input {
   margin-top: 0.2rem;
   flex: 0 0 auto;
+}
+
+.checklist span {
+  min-width: 0;
 }
 
 .button {

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pixel Draw - пиксельный редактор</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="main_updated.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <a class="logo" href="main_updated.html" aria-label="Pixel Draw">
+          <img src="draw/images/Logo.png" alt="Pixel Draw" />
+        </a>
+
+        <nav class="nav" aria-label="Навигация по странице">
+          <a href="#about">О проекте</a>
+          <a href="#gallery">Скриншоты</a>
+          <a href="#how">Как работает</a>
+        </nav>
+
+        <a class="header-button" href="draw/draw.html">Рисовать</a>
+      </header>
+
+      <main>
+        <section class="hero" id="about">
+          <div class="hero__text">
+            <p class="eyebrow">Pixel editor</p>
+            <h1>Пиксельный редактор прямо в браузере</h1>
+            <p class="hero__lead">
+              Выбирай цвет, закрашивай клетки, очищай поле, заливай всю сетку и
+              сохраняй рисунок. Проект сделан как простой редактор, в котором
+              можно быстро собрать иконку, спрайт или маленький пиксель-арт.
+            </p>
+            <a class="draw-button" href="draw/draw.html">Перейти к рисованию</a>
+          </div>
+
+          <div class="hero__preview" aria-label="Пример пиксельного рисунка">
+            <div class="pixel-board" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="intro-card">
+          <pre>
+PIXEL - Draw Your Imagination One Pixel at a Time
+
+Welcome to PIXEL, a simple and fun place where you can create pixel art directly in your browser.
+Use the grid to draw icons, characters, game sprites, patterns and small experiments.
+
+Features:
+
+- easy-to-use pixel drawing grid
+- multiple colors to choose from
+- fill and clear tools for faster drawing
+- saving the result as an image
+- perfect for beginners and pixel art fans
+
+Start drawing now and turn tiny squares into awesome art.
+          </pre>
+        </section>
+
+        <section class="section" id="gallery">
+          <div class="section__head">
+            <p class="eyebrow">Screens</p>
+            <h2>Места для скриншотов редактора</h2>
+            <p>
+              Эти изображения показывают основные части редактора: рабочую
+              сетку, панель инструментов и готовый рисунок, который можно
+              сохранить.
+            </p>
+          </div>
+
+          <div class="shots">
+            <article class="shot-card">
+              <img
+                class="shot-image"
+                src="draw/images/screenshot-editor-grid.svg"
+                alt="Скриншот рабочей сетки пиксельного редактора"
+              />
+              <h3>Рабочая сетка</h3>
+              <p>Главная область редактора, где каждая клетка становится частью рисунка.</p>
+            </article>
+
+            <article class="shot-card">
+              <img
+                class="shot-image"
+                src="draw/images/screenshot-editor-tools.svg"
+                alt="Скриншот панели цветов и инструментов"
+              />
+              <h3>Палитра цветов</h3>
+              <p>Кнопки цветов помогают быстро переключаться между оттенками.</p>
+            </article>
+
+            <article class="shot-card">
+              <img
+                class="shot-image"
+                src="draw/images/screenshot-editor-result.svg"
+                alt="Скриншот сохраненного пиксельного рисунка"
+              />
+              <h3>Готовый рисунок</h3>
+              <p>После работы изображение можно сохранить и использовать отдельно.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section section--split" id="how">
+          <div>
+            <p class="eyebrow">How it works</p>
+            <h2>Принцип работы редактора</h2>
+          </div>
+
+          <div class="steps">
+            <article class="step">
+              <span>1</span>
+              <h3>Сетка создается из клеток</h3>
+              <p>
+                JavaScript добавляет много маленьких блоков. Каждый блок можно
+                закрасить выбранным цветом.
+              </p>
+            </article>
+            <article class="step">
+              <span>2</span>
+              <h3>Палитра выбирает активный цвет</h3>
+              <p>
+                Когда ты нажимаешь на цвет, редактор запоминает его и применяет
+                к следующим клеткам.
+              </p>
+            </article>
+            <article class="step">
+              <span>3</span>
+              <h3>Инструменты ускоряют работу</h3>
+              <p>
+                Очистка, заливка и сохранение помогают не рисовать все вручную
+                и быстро получить готовый результат.
+              </p>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>&copy; <span id="year">2026</span> Pixel-draw. All rights reserved.</span>
+        <a href="draw/draw.html">Перейти к рисованию</a>
+      </footer>
+    </div>
+
+    <script src="main_updated.js"></script>
+  </body>
+</html>

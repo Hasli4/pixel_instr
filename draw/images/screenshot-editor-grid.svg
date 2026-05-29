@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-label="Рабочая сетка пиксельного редактора">
+  <rect width="960" height="600" fill="#fbfff8"/>
+  <rect x="36" y="34" width="888" height="74" rx="0" fill="#1fb95f" opacity=".72" stroke="#050505" stroke-width="6"/>
+  <rect x="58" y="48" width="48" height="48" fill="#fff" stroke="#050505" stroke-width="4"/>
+  <rect x="128" y="57" width="38" height="30" fill="#ff4f4f" stroke="#050505" stroke-width="4"/>
+  <rect x="176" y="57" width="38" height="30" fill="#111" stroke="#050505" stroke-width="4"/>
+  <rect x="224" y="57" width="38" height="30" fill="#1fb95f" stroke="#050505" stroke-width="4"/>
+  <rect x="272" y="57" width="38" height="30" fill="#335cff" stroke="#050505" stroke-width="4"/>
+  <rect x="320" y="57" width="38" height="30" fill="#ffdf3d" stroke="#050505" stroke-width="4"/>
+  <rect x="668" y="51" width="84" height="42" rx="8" fill="#fff" stroke="#050505" stroke-width="4"/>
+  <rect x="766" y="51" width="70" height="42" rx="8" fill="#fff" stroke="#050505" stroke-width="4"/>
+  <rect x="850" y="51" width="50" height="42" rx="8" fill="#fff" stroke="#050505" stroke-width="4"/>
+  <text x="686" y="78" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#050505">Fill</text>
+  <text x="780" y="78" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#050505">Clear</text>
+  <path d="M866 71h18m-9-9v18" stroke="#050505" stroke-width="5" stroke-linecap="round"/>
+  <rect x="64" y="142" width="832" height="390" fill="#fff" stroke="#050505" stroke-width="6"/>
+  <g stroke="#d7d7d7" stroke-width="2">
+    <path d="M96 142v390M128 142v390M160 142v390M192 142v390M224 142v390M256 142v390M288 142v390M320 142v390M352 142v390M384 142v390M416 142v390M448 142v390M480 142v390M512 142v390M544 142v390M576 142v390M608 142v390M640 142v390M672 142v390M704 142v390M736 142v390M768 142v390M800 142v390M832 142v390M864 142v390"/>
+    <path d="M64 174h832M64 206h832M64 238h832M64 270h832M64 302h832M64 334h832M64 366h832M64 398h832M64 430h832M64 462h832M64 494h832"/>
+  </g>
+  <g>
+    <rect x="288" y="238" width="32" height="32" fill="#335cff"/>
+    <rect x="320" y="238" width="32" height="32" fill="#335cff"/>
+    <rect x="352" y="238" width="32" height="32" fill="#335cff"/>
+    <rect x="256" y="270" width="32" height="32" fill="#335cff"/>
+    <rect x="288" y="270" width="32" height="32" fill="#1fb95f"/>
+    <rect x="320" y="270" width="32" height="32" fill="#1fb95f"/>
+    <rect x="352" y="270" width="32" height="32" fill="#1fb95f"/>
+    <rect x="384" y="270" width="32" height="32" fill="#335cff"/>
+    <rect x="256" y="302" width="32" height="32" fill="#ffdf3d"/>
+    <rect x="288" y="302" width="32" height="32" fill="#1fb95f"/>
+    <rect x="320" y="302" width="32" height="32" fill="#ff4f4f"/>
+    <rect x="352" y="302" width="32" height="32" fill="#1fb95f"/>
+    <rect x="384" y="302" width="32" height="32" fill="#ffdf3d"/>
+    <rect x="288" y="334" width="32" height="32" fill="#1fb95f"/>
+    <rect x="320" y="334" width="32" height="32" fill="#1fb95f"/>
+    <rect x="352" y="334" width="32" height="32" fill="#1fb95f"/>
+  </g>
+  <text x="64" y="570" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#050505">Рабочее поле: каждая клетка становится частью рисунка</text>
+</svg>

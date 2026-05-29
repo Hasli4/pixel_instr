@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pixel Draw</title>
+    <link rel="stylesheet" href="draw.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+    <script type="module" src="draw.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">
+        <img src="images/Logo.png" alt="Pixel Draw Logo" />
+      </div>
+      <a href="../index.html">
+        <button class="button_back" title="Back">⬅</button>
+      </a>
+      <div class="color-picker">
+        <div class="colors">
+          <button class="red" type="button" title="Red"></button>
+          <button class="black" type="button" title="Black"></button>
+          <button class="green" type="button" title="Green"></button>
+          <button class="blue" type="button" title="Blue"></button>
+          <button class="purple" type="button" title="Purple"></button>
+          <button class="yellow" type="button" title="Yellow"></button>
+          <button class="brown" type="button" title="Brown"></button>
+          <button class="pink" type="button" title="Pink"></button>
+          <button class="erase" type="button" title="Erase"></button>
+        </div>
+
+        <div class="addons">
+          <button class="paint-all" type="button">Fill All</button>
+          <button class="clear" type="button">Clear</button>
+          <button class="save-image" type="button">Save Image</button>
+        </div>
+      </div>
+    </header>
+    <main class="workspace">
+      <div class="field"></div>
+    </main>
+    <footer class="footer">
+      <div class="copyright">&copy; 2026 Pixel-draw. All rights reserved.</div>
+    </footer>
+    <script type="module" src="draw.js"></script>
+  </body>
+</html>

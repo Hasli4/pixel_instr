@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-label="Готовый пиксельный рисунок">
+  <rect width="960" height="600" fill="#fbfff8"/>
+  <rect x="110" y="58" width="740" height="446" rx="8" fill="#ffffff" stroke="#050505" stroke-width="6"/>
+  <rect x="160" y="100" width="640" height="320" fill="#fff" stroke="#050505" stroke-width="5"/>
+  <g stroke="#e0e0e0" stroke-width="2">
+    <path d="M200 100v320M240 100v320M280 100v320M320 100v320M360 100v320M400 100v320M440 100v320M480 100v320M520 100v320M560 100v320M600 100v320M640 100v320M680 100v320M720 100v320M760 100v320"/>
+    <path d="M160 140h640M160 180h640M160 220h640M160 260h640M160 300h640M160 340h640M160 380h640"/>
+  </g>
+  <g>
+    <rect x="360" y="140" width="40" height="40" fill="#1fb95f"/>
+    <rect x="400" y="140" width="40" height="40" fill="#1fb95f"/>
+    <rect x="440" y="140" width="40" height="40" fill="#1fb95f"/>
+    <rect x="480" y="140" width="40" height="40" fill="#1fb95f"/>
+    <rect x="520" y="140" width="40" height="40" fill="#1fb95f"/>
+    <rect x="320" y="180" width="40" height="40" fill="#1fb95f"/>
+    <rect x="360" y="180" width="40" height="40" fill="#ffdf3d"/>
+    <rect x="400" y="180" width="40" height="40" fill="#ffdf3d"/>
+    <rect x="440" y="180" width="40" height="40" fill="#ffdf3d"/>
+    <rect x="480" y="180" width="40" height="40" fill="#ffdf3d"/>
+    <rect x="520" y="180" width="40" height="40" fill="#ffdf3d"/>
+    <rect x="560" y="180" width="40" height="40" fill="#1fb95f"/>
+    <rect x="320" y="220" width="40" height="40" fill="#1fb95f"/>
+    <rect x="360" y="220" width="40" height="40" fill="#ffdf3d"/>
+    <rect x="400" y="220" width="40" height="40" fill="#111"/>
+    <rect x="440" y="220" width="40" height="40" fill="#ffdf3d"/>
+    <rect x="480" y="220" width="40" height="40" fill="#111"/>
+    <rect x="520" y="220" width="40" height="40" fill="#ffdf3d"/>
+    <rect x="560" y="220" width="40" height="40" fill="#1fb95f"/>
+    <rect x="360" y="260" width="40" height="40" fill="#ffdf3d"/>
+    <rect x="400" y="260" width="40" height="40" fill="#ff4f4f"/>
+    <rect x="440" y="260" width="40" height="40" fill="#ff4f4f"/>
+    <rect x="480" y="260" width="40" height="40" fill="#ff4f4f"/>
+    <rect x="520" y="260" width="40" height="40" fill="#ffdf3d"/>
+    <rect x="400" y="300" width="40" height="40" fill="#335cff"/>
+    <rect x="440" y="300" width="40" height="40" fill="#335cff"/>
+    <rect x="480" y="300" width="40" height="40" fill="#335cff"/>
+    <rect x="440" y="340" width="40" height="40" fill="#335cff"/>
+  </g>
+  <rect x="302" y="448" width="356" height="76" rx="10" fill="#1fb95f" stroke="#050505" stroke-width="5"/>
+  <text x="352" y="496" font-family="Arial, sans-serif" font-size="30" font-weight="800" fill="#050505">pixel-draw.png</text>
+  <text x="110" y="558" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#050505">Готовый рисунок можно сохранить как изображение</text>
+</svg>
