@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pixel Draw - моя галерея</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="gallery.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <a class="logo" href="main_updated.html" aria-label="Pixel Draw">
+          <img src="draw/images/Logo.png" alt="Pixel Draw" />
+        </a>
+
+        <nav class="nav" aria-label="Навигация по сайту">
+          <a href="main_updated.html#about">О проекте</a>
+          <a href="main_updated.html#gallery">Скриншоты</a>
+          <a href="main_updated.html#how">Как работает</a>
+          <a href="draw.html">Редактор</a>
+        </nav>
+
+        <a class="header-button" href="draw.html">Рисовать</a>
+      </header>
+
+      <main>
+        <section class="gallery-hero">
+          <div>
+            <p class="eyebrow">Local gallery</p>
+            <h1>Моя галерея рисунков</h1>
+            <p class="gallery-hero__lead">
+              Здесь появляются работы, которые ты сохраняешь в редакторе кнопкой
+              <strong>Save Image</strong>. Галерея хранится только в твоём
+              браузере: без сервера, аккаунта и базы данных.
+            </p>
+          </div>
+
+          <div class="gallery-panel" aria-live="polite">
+            <span class="gallery-panel__label">Активные работы</span>
+            <strong id="galleryCount">0 / 9</strong>
+            <p id="archiveCount">В архиве пока 0 работ.</p>
+            <div class="gallery-panel__actions">
+              <a class="draw-button" href="draw.html">Перейти к рисованию</a>
+              <button class="clear-gallery" id="clearGallery" type="button">
+                Очистить галерею
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="gallery-title">
+          <div class="section__head">
+            <p class="eyebrow">Saved works</p>
+            <h2 id="gallery-title">Последние 9 сохранений</h2>
+            <p>
+              Новые рисунки появляются первыми. Если сохранить больше девяти
+              работ, самая старая активная картинка исчезнет из этой сетки, но
+              её пиксельные данные сохранятся в архиве для будущей доработки.
+            </p>
+          </div>
+
+          <p class="empty-message" id="emptyMessage">
+            Пока здесь нет сохранённых работ. Открой редактор, нарисуй что-нибудь
+            и нажми <strong>Save Image</strong>.
+          </p>
+
+          <div class="gallery-grid" id="galleryGrid"></div>
+        </section>
+
+        <section class="archive-note">
+          <div>
+            <p class="eyebrow">Archive</p>
+            <h2>Архив уже подготовлен</h2>
+          </div>
+          <p>
+            Когда активных работ станет больше девяти, старые изображения будут
+            убираться из галереи, а их данные о пикселях останутся в локальном
+            архиве. Отдельную страницу архива можно добавить позже.
+          </p>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>&copy; <span id="year">2026</span> Pixel-draw. All rights reserved.</span>
+        <a href="main_updated.html">На главную</a>
+        <a href="draw.html">Перейти к рисованию</a>
+      </footer>
+    </div>
+
+    <div class="modal" id="previewModal" hidden>
+      <div class="modal__backdrop" data-close-modal></div>
+      <section class="modal__card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="modal__close" type="button" data-close-modal aria-label="Закрыть">×</button>
+        <p class="eyebrow">Preview</p>
+        <h2 id="modalTitle">Сохранённый рисунок</h2>
+        <img id="modalImage" src="" alt="Сохранённый пиксельный рисунок" />
+        <p id="modalMeta"></p>
+      </section>
+    </div>
+
+    <script src="gallery.js"></script>
+  </body>
+</html>

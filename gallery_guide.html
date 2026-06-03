@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Пошаговый гайд по локальной галерее</title>
+    <link rel="stylesheet" href="gallery_guide.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__inner">
+        <div class="hero__copy">
+          <p class="eyebrow">Пошаговый гайд</p>
+          <h1>Добавь локальную галерею к пиксельному редактору</h1>
+          <p>
+            Здесь ты по шагам создашь страницу галереи и научишь редактор
+            сохранять рисунки прямо в браузере пользователя. Сервер, база данных
+            и регистрация не нужны: всё работает на GitHub Pages.
+          </p>
+        </div>
+
+        <div class="progress-card" aria-live="polite">
+          <span class="progress-card__label">Прогресс</span>
+          <strong id="progressText">0 из 7 шагов</strong>
+          <div class="progress-bar" aria-hidden="true">
+            <span id="progressBar"></span>
+          </div>
+          <p class="progress-card__note">
+            Ответы и отметки хранятся только в этом браузере.
+          </p>
+          <button
+            id="resetProgress"
+            class="button button--ghost progress-card__button"
+            type="button"
+          >
+            Сбросить прогресс
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      <aside class="route" aria-label="Навигация по шагам">
+        <h2>Шаги</h2>
+        <nav id="stepNav"></nav>
+      </aside>
+
+      <section class="lesson" aria-label="Инструкция по созданию локальной галереи">
+        <section class="intro">
+          <div>
+            <p class="eyebrow">Как идти</p>
+            <h2>От страницы галереи к сохранению работ</h2>
+          </div>
+          <div>
+            <p>
+              Сначала создай отдельную страницу галереи, затем оформи её в стиле
+              проекта, после этого добавь JavaScript: чтение из хранилища,
+              сохранение работы из редактора, карточки, просмотр и удаление.
+            </p>
+            <ul class="intro__list">
+              <li>создай отдельные файлы <code>gallery.html</code>, <code>gallery.css</code>, <code>gallery.js</code>;</li>
+              <li>в редакторе добавь только нужную связь с галереей и локальное сохранение;</li>
+              <li>не используй сервер, авторизацию, базу данных и внешнее storage;</li>
+              <li>после отметки шага ответь на вопросы, чтобы открыть итоговый код.</li>
+            </ul>
+          </div>
+        </section>
+
+        <div id="steps" class="steps"></div>
+
+        <section class="finish" aria-labelledby="finish-title">
+          <p class="eyebrow">Финальная проверка</p>
+          <h2 id="finish-title">Проверь локальную галерею</h2>
+          <p>
+            В конце у тебя должна быть отдельная страница галереи: сначала она
+            показывает 9 пустых слотов, а после сохранения рисунков отображает
+            работы текущего пользователя из его браузера. Новые работы идут
+            первыми, карточки можно открыть и удалить, а при переполнении старые
+            данные уходят в архив.
+          </p>
+
+          <div class="checklist">
+            <label>
+              <input type="checkbox" />
+              <span>На странице галереи есть шапка, блок описания, счётчик, сетка и модальное окно.</span>
+            </label>
+            <label>
+              <input type="checkbox" />
+              <span>Пустая галерея показывает 9 плейсхолдеров и понятное сообщение.</span>
+            </label>
+            <label>
+              <input type="checkbox" />
+              <span>Кнопка <code>Save Image</code> сохраняет работу в браузере без перезагрузки страницы.</span>
+            </label>
+            <label>
+              <input type="checkbox" />
+              <span>В сохранённой работе есть <code>id</code>, дата, формат, <code>dataUrl</code> и данные пикселей.</span>
+            </label>
+            <label>
+              <input type="checkbox" />
+              <span>Галерея сортирует работы по дате, новые показывает сверху.</span>
+            </label>
+            <label>
+              <input type="checkbox" />
+              <span>Есть удаление одной работы, очистка галереи и просмотр рисунка в полном размере.</span>
+            </label>
+            <label>
+              <input type="checkbox" />
+              <span>После 9 активных работ старая картинка убирается, а её пиксельные данные попадают в архив.</span>
+            </label>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="gallery_guide.js"></script>
+  </body>
+</html>
